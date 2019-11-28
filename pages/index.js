@@ -1,1 +1,1 @@
-export default () => <h1>Hello World Airforce</h1>;
+export default () => <h1>Ping Pong</h1>;
