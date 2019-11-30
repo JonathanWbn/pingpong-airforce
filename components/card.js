@@ -20,6 +20,7 @@ export default ({ heading, children, footer }) => (
       h1 {
         margin: 20px;
         font-weight: 500;
+        margin-bottom: 0px;
       }
       .content {
         flex-grow: 1;

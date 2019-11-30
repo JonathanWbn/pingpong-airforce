@@ -25,6 +25,7 @@ export default () => (
     <style jsx>{`
       ol {
         margin: 0;
+        margin-top: 20px;
         padding: 0 20px;
       }
       li {
