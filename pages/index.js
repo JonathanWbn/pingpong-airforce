@@ -1,21 +1,32 @@
 import Games from "../components/games";
+import Ranking from "../components/ranking";
 
 export default () => (
   <>
-    <Games />
+    <div className="app">
+      <Games />
+      <Ranking />
+    </div>
     <style jsx global>{`
       * {
         box-sizing: border-box;
         font-family: var(--font);
       }
       body {
-        background-color: var(--accent);
-        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      .app {
+        min-height: 100vh;
         width: 100vw;
         display: flex;
         flex-direction: column;
+        align-items: center;
         padding: 16px;
-        margin: 0;
+        background-color: var(--accent);
+      }
+      .app > *:not(:last-child) {
+        margin-bottom: 16px;
       }
       :root {
         --background: #fff;
@@ -28,6 +39,18 @@ export default () => (
         --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
         --shadow-large: 0 30px 60px rgba(0, 0, 0, 0.12);
         --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.12);
+      }
+
+      @media (min-width: 900px) {
+        .app {
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: center;
+        }
+        .app > * {
+          margin-bottom: 0px;
+          margin-right: 16px;
+        }
       }
     `}</style>
   </>

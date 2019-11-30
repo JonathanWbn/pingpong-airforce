@@ -1,11 +1,11 @@
 import mockData from "../mock-data.json";
+import Card from "./card.js";
 
 const getPlayer = name => mockData.players.find(player => player.name === name);
 
 export default () => (
   <>
-    <main>
-      <h1>Games</h1>
+    <Card heading="Games" footer={`${mockData.games.length} games`}>
       <ol>
         {mockData.games.map(({ player1, player2, score }, i) => (
           <li key={i}>
@@ -21,29 +21,11 @@ export default () => (
           </li>
         ))}
       </ol>
-      <div className="stats">{mockData.games.length} games played</div>
-    </main>
+    </Card>
     <style jsx>{`
-      main {
-        background-color: var(--background);
-        border-radius: 8px;
-        box-shadow: var(--shadow-small);
-        width: 100%;
-        max-height: 500px;
-        max-width: 400px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-      h1 {
-        margin: 20px;
-        font-weight: 500;
-      }
       ol {
         margin: 0;
         padding: 0 20px;
-        flex-grow: 1;
-        overflow-y: scroll;
       }
       li {
         border-top: 1px solid #e6e6e6;
@@ -70,23 +52,8 @@ export default () => (
         border-radius: 100%;
         border: 1px solid #ccc;
       }
-      .stats {
-        border-top: 1px solid #e6e6e6;
-        background-color: var(--accent);
-        padding: 20px;
-        font-weight: 300;
-        text-align: center;
-        font-size: 15px;
-      }
 
       @media (min-width: 900px) {
-        main {
-          max-width: 500px;
-          max-height: 700px;
-        }
-        h1 {
-          font-size: 38px;
-        }
         li {
           font-size: 18px;
         }
