@@ -1,7 +1,14 @@
-export default ({ heading, children, footer }) => (
+import Button from "./button";
+
+export default ({ heading, children, footer, actionButton }) => (
   <>
     <main>
-      <h1>{heading}</h1>
+      <div className="header">
+        <h1>{heading}</h1>
+        {actionButton && (
+          <Button onClick={actionButton.onClick}>{actionButton.label}</Button>
+        )}
+      </div>
       <div className="content">{children}</div>
       <div className="footer">{footer}</div>
     </main>
@@ -17,14 +24,20 @@ export default ({ heading, children, footer }) => (
         flex-direction: column;
         overflow: hidden;
       }
+      .header {
+        margin: 20px 20px 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
       h1 {
-        margin: 20px;
+        margin: 0;
         font-weight: 500;
-        margin-bottom: 0px;
       }
       .content {
         flex-grow: 1;
         overflow-y: scroll;
+        margin-top: 20px;
       }
       .footer {
         border-top: 1px solid #e6e6e6;

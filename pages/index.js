@@ -39,6 +39,7 @@ export default () => (
         --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
         --shadow-large: 0 30px 60px rgba(0, 0, 0, 0.12);
         --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.12);
+        --button-color: #0070f3;
       }
 
       @media (min-width: 900px) {

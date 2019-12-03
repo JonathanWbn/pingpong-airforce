@@ -5,7 +5,14 @@ const getPlayer = name => mockData.players.find(player => player.name === name);
 
 export default () => (
   <>
-    <Card heading="Games" footer={`${mockData.games.length} games`}>
+    <Card
+      heading="Games"
+      footer={`${mockData.games.length} games`}
+      actionButton={{
+        label: "add game",
+        onClick: () => alert("added a game")
+      }}
+    >
       <ol>
         {mockData.games.map(({ player1, player2, score }, i) => (
           <li key={i}>
@@ -25,7 +32,6 @@ export default () => (
     <style jsx>{`
       ol {
         margin: 0;
-        margin-top: 20px;
         padding: 0 20px;
       }
       li {

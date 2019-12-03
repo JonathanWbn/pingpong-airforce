@@ -3,7 +3,14 @@ import Card from "./card.js";
 
 export default () => (
   <>
-    <Card heading="Ranking" footer={`${mockData.players.length} players`}>
+    <Card
+      heading="Ranking"
+      footer={`${mockData.players.length} players`}
+      actionButton={{
+        label: "add player",
+        onClick: () => alert("added a player")
+      }}
+    >
       <div className="legend">
         <div>P</div>
         <div>W</div>
