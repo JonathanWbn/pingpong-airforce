@@ -5,9 +5,7 @@ export default ({ heading, children, footer, actionButton }) => (
     <main>
       <div className="header">
         <h1>{heading}</h1>
-        {actionButton && (
-          <Button onClick={actionButton.onClick}>{actionButton.label}</Button>
-        )}
+        <Button onClick={actionButton.onClick}>{actionButton.label}</Button>
       </div>
       <div className="content">{children}</div>
       <div className="footer">{footer}</div>
