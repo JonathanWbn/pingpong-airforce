@@ -5,7 +5,7 @@ import Modal from "./modal";
 const getPlayer = name => mockData.players.find(player => player.name === name);
 
 export default () => {
-  const [modalIsOpen, setModalIsOpen] = React.useState(true);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   return (
     <>
