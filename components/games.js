@@ -5,11 +5,15 @@ import Modal from "./modal";
 const getPlayer = name => mockData.players.find(player => player.name === name);
 
 export default () => {
-  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [modalIsOpen, setModalIsOpen] = React.useState(true);
 
   return (
     <>
-      <Modal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} />
+      <Modal
+        isOpen={modalIsOpen}
+        onClose={() => setModalIsOpen(false)}
+        title="Add Game"
+      />
       <Card
         heading="Games"
         footer={`${mockData.games.length} games`}

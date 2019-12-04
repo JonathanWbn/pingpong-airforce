@@ -7,7 +7,11 @@ export default () => {
 
   return (
     <>
-      <Modal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} />
+      <Modal
+        isOpen={modalIsOpen}
+        onClose={() => setModalIsOpen(false)}
+        title="Add Player"
+      />
       <Card
         heading="Ranking"
         footer={`${mockData.players.length} players`}

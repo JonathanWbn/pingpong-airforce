@@ -23,7 +23,7 @@ export default ({ heading, children, footer, actionButton }) => (
         overflow: hidden;
       }
       .header {
-        margin: 20px 20px 0 20px;
+        margin: 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -35,7 +35,6 @@ export default ({ heading, children, footer, actionButton }) => (
       .content {
         flex-grow: 1;
         overflow-y: scroll;
-        margin-top: 20px;
       }
       .footer {
         border-top: 1px solid #e6e6e6;
