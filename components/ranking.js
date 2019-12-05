@@ -3,6 +3,33 @@ import { breakpoint } from "../pages/index.js";
 import Card from "./card.js";
 import PlayerModal from "./player-modal";
 
+const getGamesWon = player =>
+  mockData.games.reduce((acc, game) => {
+    if (game.player1 === player && game.score.player1 > game.score.player2)
+      return acc + 1;
+    if (game.player2 === player && game.score.player2 > game.score.player1)
+      return acc + 1;
+    return acc;
+  }, 0);
+const getGamesLost = player =>
+  mockData.games.reduce((acc, game) => {
+    if (game.player1 === player && game.score.player1 < game.score.player2)
+      return acc + 1;
+    if (game.player2 === player && game.score.player2 < game.score.player1)
+      return acc + 1;
+    return acc;
+  }, 0);
+const getGamesTied = player =>
+  mockData.games.reduce((acc, game) => {
+    if (
+      (game.player1 === player || game.player2 === player) &&
+      game.score.player1 === game.score.player2
+    )
+      return acc + 1;
+    return acc;
+  }, 0);
+const getPoints = player => getGamesWon(player) - getGamesLost(player);
+
 export default () => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [player, setPlayer] = React.useState(null);
@@ -17,8 +44,15 @@ export default () => {
         }}
         initialValues={player}
         onSubmit={values => {
-          // TODO: confirm valid player name
-          console.log(values);
+          if (
+            mockData.players.some(
+              player => player.name.toLowerCase() === values.name.toLowerCase()
+            )
+          )
+            alert(
+              "A Player with this name already exists. Please choose a different one."
+            );
+          else console.log(values);
         }}
       />
       <Card
@@ -36,21 +70,23 @@ export default () => {
           <div className="descriptor">T</div>
         </div>
         <ol>
-          {mockData.players.map(({ name, animal }, i) => (
-            <li key={i} onClick={() => setPlayer({ name, animal })}>
-              <div className="player">
-                <strong>{i + 1}.</strong>
-                <img src={`/static/animals/${animal}.png`} />
-                {name}
-              </div>
-              <div className="scores">
-                <div className="score">10</div>
-                <div className="score">30</div>
-                <div className="score">20</div>
-                <div className="score">0</div>
-              </div>
-            </li>
-          ))}
+          {mockData.players
+            .sort((p1, p2) => getPoints(p2.name) - getPoints(p1.name))
+            .map(({ name, animal }, i) => (
+              <li key={i} onClick={() => setPlayer({ name, animal })}>
+                <div className="player">
+                  <strong>{i + 1}.</strong>
+                  <img src={`/static/animals/${animal}.png`} />
+                  {name}
+                </div>
+                <div className="scores">
+                  <div className="score">{getPoints(name)}</div>
+                  <div className="score">{getGamesWon(name)}</div>
+                  <div className="score">{getGamesLost(name)}</div>
+                  <div className="score">{getGamesTied(name)}</div>
+                </div>
+              </li>
+            ))}
         </ol>
       </Card>
       <style jsx>{`
