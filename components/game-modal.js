@@ -1,4 +1,5 @@
 import mockData from "../mock-data.json";
+import { breakpoint } from "../pages";
 import Input from "./input";
 import Modal from "./modal";
 import Select from "./select";
@@ -80,7 +81,7 @@ export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
         .container {
           display: flex;
           align-items: center;
-          padding: 0 50px;
+          padding: 0 20px;
         }
         h5 {
           margin: 20px;
@@ -102,6 +103,12 @@ export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
         }
         .winning {
           font-weight: 600;
+        }
+
+        @media (min-width: ${breakpoint}) {
+          .container {
+            padding: 0 50px;
+          }
         }
       `}</style>
     </>
