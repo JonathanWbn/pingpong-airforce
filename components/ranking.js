@@ -15,7 +15,7 @@ export default () => {
           setModalIsOpen(false);
           setPlayer(null);
         }}
-        initialValues={player || {}}
+        initialValues={player}
         onSubmit={values => {
           // TODO: confirm valid player name
           console.log(values);
@@ -33,6 +33,7 @@ export default () => {
           <div className="descriptor">P</div>
           <div className="descriptor">W</div>
           <div className="descriptor">L</div>
+          <div className="descriptor">T</div>
         </div>
         <ol>
           {mockData.players.map(({ name, animal }, i) => (
@@ -46,6 +47,7 @@ export default () => {
                 <div className="score">10</div>
                 <div className="score">30</div>
                 <div className="score">20</div>
+                <div className="score">0</div>
               </div>
             </li>
           ))}

@@ -26,7 +26,7 @@ const animals = [
   { name: "Guineapig", id: "021-guineapig" },
   { name: "Squirrel", id: "022-squirrel" },
   { name: "Lemur", id: "023-lemur" },
-  { name: "Duck", id: "024-duck" }
+  { name: "Penguin", id: "047-penguin" }
 ];
 
 export default ({ isOpen, onClose, onSubmit, initialValues }) => {
@@ -35,8 +35,8 @@ export default ({ isOpen, onClose, onSubmit, initialValues }) => {
 
   React.useEffect(() => {
     if (isOpen) {
-      setName(initialValues.name || "");
-      setAnimal(initialValues.animal || "");
+      setName((initialValues && initialValues.name) || "");
+      setAnimal((initialValues && initialValues.animal) || "");
     }
   }, [isOpen]);
 
@@ -45,7 +45,7 @@ export default ({ isOpen, onClose, onSubmit, initialValues }) => {
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        title="Add Player"
+        title={`${initialValues ? "Edit" : "Add"} Player`}
         onSubmit={e => {
           e.preventDefault();
           if (!animal) alert("Please select an animal.");

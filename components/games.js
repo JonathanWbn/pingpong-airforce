@@ -1,19 +1,27 @@
 import mockData from "../mock-data.json";
 import { breakpoint } from "../pages/index.js";
 import Card from "./card.js";
-import Modal from "./modal";
+import GameModal from "./game-modal";
 
 const getPlayer = name => mockData.players.find(player => player.name === name);
 
 export default () => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [game, setGame] = React.useState(null);
 
   return (
     <>
-      <Modal
-        isOpen={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
+      <GameModal
+        isOpen={modalIsOpen || Boolean(game)}
+        onClose={() => {
+          setModalIsOpen(false);
+          setGame(null);
+        }}
         title="Add Game"
+        onSubmit={values => {
+          console.log(values);
+        }}
+        initialValues={game}
       />
       <Card
         heading="Games"
@@ -25,7 +33,7 @@ export default () => {
       >
         <ol>
           {mockData.games.map(({ player1, player2, score }, i) => (
-            <li key={i}>
+            <li key={i} onClick={() => setGame({ player1, player2, score })}>
               <div className="player player-1">
                 <img src={`/static/animals/${getPlayer(player1).animal}.png`} />
                 {player1}
@@ -50,6 +58,7 @@ export default () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          cursor: pointer;
           font-size: var(--list-font-size);
         }
         .player {

@@ -45,6 +45,8 @@ export default () => (
       ol,
       li,
       h1,
+      h3,
+      h5,
       body {
         margin: 0;
         padding: 0;
