@@ -1,17 +1,25 @@
 import mockData from "../mock-data.json";
 import { breakpoint } from "../pages/index.js";
 import Card from "./card.js";
-import Modal from "./modal";
+import PlayerModal from "./player-modal";
 
 export default () => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [player, setPlayer] = React.useState(null);
 
   return (
     <>
-      <Modal
-        isOpen={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
-        title="Add Player"
+      <PlayerModal
+        isOpen={modalIsOpen || Boolean(player)}
+        onClose={() => {
+          setModalIsOpen(false);
+          setPlayer(null);
+        }}
+        initialValues={player || {}}
+        onSubmit={values => {
+          // TODO: confirm valid player name
+          console.log(values);
+        }}
       />
       <Card
         heading="Ranking"
@@ -27,11 +35,11 @@ export default () => {
           <div className="descriptor">L</div>
         </div>
         <ol>
-          {mockData.players.map(({ name, image_url }, i) => (
-            <li key={i}>
+          {mockData.players.map(({ name, animal }, i) => (
+            <li key={i} onClick={() => setPlayer({ name, animal })}>
               <div className="player">
                 <strong>{i + 1}.</strong>
-                <img src={image_url} />
+                <img src={`/static/animals/${animal}.png`} />
                 {name}
               </div>
               <div className="scores">
@@ -64,6 +72,7 @@ export default () => {
           padding: 0 20px;
         }
         li {
+          cursor: pointer;
           border-top: var(--dividing-border);
           list-style-type: none;
           padding: 10px 0;
@@ -71,12 +80,10 @@ export default () => {
           align-items: center;
           justify-content: space-between;
         }
-        img {
+        li img {
           height: 25px;
           width: 25px;
           object-fit: cover;
-          border-radius: 100%;
-          border: 1px solid var(--grey);
           margin: 0 10px;
         }
         .player {

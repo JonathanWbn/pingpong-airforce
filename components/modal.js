@@ -1,4 +1,4 @@
-export default ({ isOpen, onClose, onSubmit, title }) => {
+export default ({ isOpen, onClose, onSubmit, title, children }) => {
   const modalRef = React.useRef();
   const [fullyClosed, setFullyClosed] = React.useState(true);
 
@@ -21,14 +21,16 @@ export default ({ isOpen, onClose, onSubmit, title }) => {
     <>
       <div className="container">
         <div className="dark-overlay" />
-        <div className="modal" ref={modalRef}>
+        <form className="modal" ref={modalRef} onSubmit={onSubmit}>
           <h1>{title}</h1>
-          <div className="modal-content"></div>
+          <div className="modal-content">{children}</div>
           <div className="modal-footer">
-            <button onClick={onClose}>Cancel</button>
-            <button onClick={onSubmit}>Submit</button>
+            <button onClick={onClose} type="button">
+              Cancel
+            </button>
+            <button type="submit">Submit</button>
           </div>
-        </div>
+        </form>
       </div>
       <style jsx>{`
         .container {
@@ -55,6 +57,9 @@ export default ({ isOpen, onClose, onSubmit, title }) => {
           display: flex;
           flex-direction: column;
           overflow: hidden;
+        }
+        .modal-content {
+          margin-bottom: 20px;
         }
         h1 {
           margin: 20px;

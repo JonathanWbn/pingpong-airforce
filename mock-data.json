@@ -116,11 +116,11 @@
   "players": [
     {
       "name": "John",
-      "image_url": "https://public.jonathanwieben.com/Codeworks-1-bw.jpeg"
+      "animal": "002-dog"
     },
     {
       "name": "Varun",
-      "image_url": "https://public.jonathanwieben.com/stromberg-shaking-head.gif"
+      "animal": "001-pandabear"
     }
   ]
 }

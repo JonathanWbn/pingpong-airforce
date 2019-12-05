@@ -27,13 +27,13 @@ export default () => {
           {mockData.games.map(({ player1, player2, score }, i) => (
             <li key={i}>
               <div className="player player-1">
-                <img src={getPlayer(player1).image_url} />
+                <img src={`/static/animals/${getPlayer(player1).animal}.png`} />
                 {player1}
               </div>
               {score.player1} : {score.player2}
               <div className="player player-2">
                 {player2}
-                <img src={getPlayer(player2).image_url} />
+                <img src={`/static/animals/${getPlayer(player2).animal}.png`} />
               </div>
             </li>
           ))}
@@ -66,8 +66,6 @@ export default () => {
           height: 25px;
           width: 25px;
           object-fit: cover;
-          border-radius: 100%;
-          border: 1px solid var(--grey);
         }
 
         @media (min-width: ${breakpoint}) {
