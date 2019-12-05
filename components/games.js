@@ -1,4 +1,5 @@
 import mockData from "../mock-data.json";
+import { breakpoint } from "../pages/index.js";
 import Card from "./card.js";
 import Modal from "./modal";
 
@@ -40,16 +41,16 @@ export default () => {
       </Card>
       <style jsx>{`
         ol {
-          margin: 0;
           padding: 0 20px;
         }
         li {
-          border-top: 1px solid #e6e6e6;
+          border-top: var(--dividing-border);
           list-style-type: none;
           padding: 10px 0;
           display: flex;
           justify-content: space-between;
           align-items: center;
+          font-size: var(--list-font-size);
         }
         .player {
           display: flex;
@@ -66,13 +67,10 @@ export default () => {
           width: 25px;
           object-fit: cover;
           border-radius: 100%;
-          border: 1px solid #ccc;
+          border: 1px solid var(--grey);
         }
 
-        @media (min-width: 900px) {
-          li {
-            font-size: 18px;
-          }
+        @media (min-width: ${breakpoint}) {
           img {
             height: 30px;
             width: 30px;

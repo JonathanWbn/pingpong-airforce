@@ -1,3 +1,4 @@
+import { breakpoint } from "../pages";
 import Button from "./button";
 
 export default ({ heading, children, footer, actionButton }) => (
@@ -13,7 +14,7 @@ export default ({ heading, children, footer, actionButton }) => (
     <style jsx>{`
       main {
         background-color: var(--background);
-        border-radius: 8px;
+        border-radius: var(--border-radius-medium);
         box-shadow: var(--shadow-small);
         width: 100%;
         max-height: 500px;
@@ -28,30 +29,22 @@ export default ({ heading, children, footer, actionButton }) => (
         align-items: center;
         justify-content: space-between;
       }
-      h1 {
-        margin: 0;
-        font-weight: 500;
-      }
       .content {
-        flex-grow: 1;
         overflow-y: scroll;
       }
       .footer {
-        border-top: 1px solid #e6e6e6;
-        background-color: var(--accent);
+        border-top: var(--dividing-border);
+        background-color: var(--footer-background);
         padding: 20px;
         font-weight: 300;
         text-align: center;
-        font-size: 15px;
+        font-size: var(--text-font-size);
       }
 
-      @media (min-width: 900px) {
+      @media (min-width: ${breakpoint}) {
         main {
           max-width: 500px;
           max-height: 700px;
-        }
-        h1 {
-          font-size: 38px;
         }
       }
     `}</style>

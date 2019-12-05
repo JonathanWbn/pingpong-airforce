@@ -1,3 +1,5 @@
+import { breakpoint } from "../pages";
+
 export default ({ onClick, children }) => (
   <>
     <button onClick={onClick}>{children}</button>
@@ -5,26 +7,23 @@ export default ({ onClick, children }) => (
       button {
         border: 1px solid var(--button-color);
         background-color: var(--button-color);
-        border-radius: 5px;
-        color: white;
+        border-radius: var(--border-radius-small);
+        color: var(--white);
         text-transform: capitalize;
-        transition: all 0.2s ease 0s;
-        cursor: pointer;
         min-width: 110px;
         height: 30px;
-        font-size: 14px;
-        outline: none;
+        font-size: var(--text-font-size);
         font-weight: 500;
       }
       button:hover {
-        background-color: white;
+        background-color: var(--white);
         color: var(--button-color);
       }
-      @media (min-width: 900px) {
+
+      @media (min-width: ${breakpoint}) {
         button {
           min-width: 170px;
           height: 40px;
-          font-size: 15px;
         }
       }
     `}</style>

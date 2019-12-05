@@ -1,4 +1,5 @@
 import mockData from "../mock-data.json";
+import { breakpoint } from "../pages/index.js";
 import Card from "./card.js";
 import Modal from "./modal";
 
@@ -20,10 +21,10 @@ export default () => {
           onClick: () => setModalIsOpen(true)
         }}
       >
-        <div className="legend">
-          <div>P</div>
-          <div>W</div>
-          <div>L</div>
+        <div className="table-header">
+          <div className="descriptor">P</div>
+          <div className="descriptor">W</div>
+          <div className="descriptor">L</div>
         </div>
         <ol>
           {mockData.players.map(({ name, image_url }, i) => (
@@ -34,36 +35,36 @@ export default () => {
                 {name}
               </div>
               <div className="scores">
-                <div>10</div>
-                <div>30</div>
-                <div>20</div>
+                <div className="score">10</div>
+                <div className="score">30</div>
+                <div className="score">20</div>
               </div>
             </li>
           ))}
         </ol>
       </Card>
       <style jsx>{`
-        .legend {
+        .table-header {
           height: 15px;
           display: flex;
           justify-content: flex-end;
           padding: 0 20px;
           margin-bottom: 5px;
         }
-        .legend > div {
-          font-size: 15px;
-          line-height: 15px;
+        .descriptor {
+          font-size: var(--list-font-size);
+          line-height: var(--list-font-size);
           padding: 0 10px;
           width: 40px;
-          color: grey;
+          color: var(--grey);
           text-align: center;
+          font-weight: 300;
         }
         ol {
-          margin: 0;
           padding: 0 20px;
         }
         li {
-          border-top: 1px solid #e6e6e6;
+          border-top: var(--dividing-border);
           list-style-type: none;
           padding: 10px 0;
           display: flex;
@@ -75,7 +76,7 @@ export default () => {
           width: 25px;
           object-fit: cover;
           border-radius: 100%;
-          border: 1px solid #ccc;
+          border: 1px solid var(--grey);
           margin: 0 10px;
         }
         .player {
@@ -84,21 +85,17 @@ export default () => {
         }
         .scores {
           display: flex;
-          flex-direction: row;
         }
-        .scores > div {
+        .score {
           padding: 0 10px;
           width: 40px;
           text-align: center;
         }
-        .scores > div:not(:last-child) {
-          border-right: 1px solid lightgrey;
+        .score:not(:last-child) {
+          border-right: var(--dividing-border);
         }
 
-        @media (min-width: 900px) {
-          li {
-            font-size: 18px;
-          }
+        @media (min-width: ${breakpoint}) {
           img {
             height: 30px;
             width: 30px;
