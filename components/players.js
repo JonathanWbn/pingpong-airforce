@@ -7,7 +7,7 @@ import PlayerModal from './player-modal'
 export default () => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
-  const { games, players } = React.useContext(DataContext)
+  const { games, players, refetch } = React.useContext(DataContext)
 
   const getGamesWon = player =>
     games.reduce((acc, game) => {
@@ -21,12 +21,6 @@ export default () => {
       if (game.player2 === player && game.score.player2 < game.score.player1) return acc + 1
       return acc
     }, 0)
-  const getGamesTied = player =>
-    games.reduce((acc, game) => {
-      if ((game.player1 === player || game.player2 === player) && game.score.player1 === game.score.player2)
-        return acc + 1
-      return acc
-    }, 0)
   const getPoints = player => getGamesWon(player) - getGamesLost(player)
 
   return (
@@ -38,13 +32,16 @@ export default () => {
           setPlayer(null)
         }}
         initialValues={player}
-        onSubmit={values => {
-          if (player) axios.patch('/api/player', values)
-          else axios.post('/api/player', values)
+        onSubmit={async values => {
+          if (player) await axios.post(`/api/players/${player._id}`, values)
+          else await axios.post('/api/players', values)
+          setModalIsOpen(false)
+          setPlayer(null)
+          refetch()
         }}
       />
       <Card
-        heading="Ranking"
+        heading="Players"
         footer={`${players.length} players`}
         actionButton={{
           label: 'add player',
@@ -55,23 +52,21 @@ export default () => {
           <div className="descriptor">P</div>
           <div className="descriptor">W</div>
           <div className="descriptor">L</div>
-          <div className="descriptor">T</div>
         </div>
         <ol>
           {players
             .sort((p1, p2) => getPoints(p2.name) - getPoints(p1.name))
-            .map(({ name, animal }, i) => (
-              <li key={i} onClick={() => setPlayer({ name, animal })}>
+            .map((player, i) => (
+              <li key={player._id} onClick={() => setPlayer(player)}>
                 <div className="player">
                   <strong>{i + 1}.</strong>
-                  <img src={`/static/animals/${animal}.png`} />
-                  {name}
+                  <img src={`/animals/${player.animal}.png`} />
+                  {player.name}
                 </div>
                 <div className="scores">
-                  <div className="score">{getPoints(name)}</div>
-                  <div className="score">{getGamesWon(name)}</div>
-                  <div className="score">{getGamesLost(name)}</div>
-                  <div className="score">{getGamesTied(name)}</div>
+                  <div className="score">{getPoints(player._id)}</div>
+                  <div className="score">{getGamesWon(player._id)}</div>
+                  <div className="score">{getGamesLost(player._id)}</div>
                 </div>
               </li>
             ))}
@@ -88,8 +83,7 @@ export default () => {
         .descriptor {
           font-size: var(--list-font-size);
           line-height: var(--list-font-size);
-          padding: 0 10px;
-          width: 40px;
+          width: 30px;
           color: var(--grey);
           text-align: center;
           font-weight: 300;
@@ -115,20 +109,29 @@ export default () => {
         .player {
           display: flex;
           align-items: center;
+          font-size: var(--list-font-size);
+          line-height: var(--list-font-size);
         }
         .scores {
           display: flex;
         }
         .score {
-          padding: 0 10px;
-          width: 40px;
+          width: 30px;
           text-align: center;
+          font-size: var(--list-font-size);
+          line-height: var(--list-font-size);
         }
         .score:not(:last-child) {
           border-right: var(--dividing-border);
         }
 
         @media (min-width: ${breakpoint}) {
+          .score {
+            width: 40px;
+          }
+          .descriptor {
+            width: 40px;
+          }
           img {
             height: 30px;
             width: 30px;

@@ -23,7 +23,6 @@ export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        title={`${initialValues ? 'Edit' : 'Add'} Game`}
         onSubmit={e => {
           e.preventDefault()
           if (!player1 || !player2) alert('Please select two players.')
@@ -38,7 +37,7 @@ export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
               <Select value={player1} onChange={setPlayer1}>
                 <option value="">---</option>
                 {players.map(player => (
-                  <option key={player.name} value={player.name}>
+                  <option key={player.name} value={player._id}>
                     {player.name}
                   </option>
                 ))}
@@ -59,7 +58,7 @@ export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
               <Select value={player2} onChange={setPlayer2}>
                 <option value="">---</option>
                 {players.map(player => (
-                  <option key={player.name} value={player.name}>
+                  <option key={player.name} value={player._id}>
                     {player.name}
                   </option>
                 ))}

@@ -17,12 +17,13 @@ export default ({ isOpen, onClose, onSubmit, title, children }) => {
     return () => window.removeEventListener('click', handleClick)
   }, [isOpen, modalRef])
 
+  if (fullyClosed) return null
+
   return (
     <>
       <div className="container">
         <div className="dark-overlay" />
         <form className="modal" ref={modalRef} onSubmit={onSubmit}>
-          <h1>{title}</h1>
           <div className="modal-content">{children}</div>
           <div className="modal-footer">
             <button onClick={onClose} type="button">
@@ -60,6 +61,7 @@ export default ({ isOpen, onClose, onSubmit, title, children }) => {
         }
         .modal-content {
           margin-bottom: 20px;
+          margin-top: 20px;
         }
         h1 {
           margin: 20px;

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import Games from '../components/games'
-import Ranking from '../components/ranking'
+import Players from '../components/players'
 
 export const breakpoint = '900px'
 export const DataContext = React.createContext({})
@@ -9,43 +9,72 @@ export const DataContext = React.createContext({})
 export default () => {
   const [players, setPlayers] = React.useState([])
   const [games, setGames] = React.useState([])
+  const [refetchTrigger, setRefetchTrigger] = React.useState(false)
 
   React.useEffect(() => {
     axios.get('/api/players').then(({ data }) => setPlayers(data))
     axios.get('/api/games').then(({ data }) => setGames(data))
-  }, [])
+  }, [refetchTrigger])
 
   return (
     <>
-      <DataContext.Provider value={{ games, players }}>
+      <DataContext.Provider value={{ games, players, refetch: () => setRefetchTrigger(v => !v) }}>
         <div className="app">
-          <Games />
-          <Ranking />
+          <h4>
+            the <span className="soft">un</span>official scoreboard of the ping pong table at{' '}
+            <a href="https://epages.com/" target="_blank">
+              ePages
+            </a>{' '}
+            headquarters
+          </h4>
+          <div className="cards">
+            <Games />
+            <Players />
+          </div>
         </div>
       </DataContext.Provider>
       <style jsx>{`
         .app {
           min-height: 100vh;
           width: 100vw;
+          background-color: var(--body-background);
+          padding: 16px;
+        }
+        h4 {
+          text-align: center;
+          font-weight: 300;
+          color: var(--dark-grey);
+          margin-bottom: 16px;
+        }
+        h4 .soft {
+          color: var(--grey);
+        }
+        h4 a {
+          font-weight: 400;
+          text-decoration: none;
+          color: inherit;
+        }
+        .cards {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 16px;
-          background-color: var(--body-background);
         }
-        .app > :global(*):not(:last-child) {
+        .cards > :global(*):not(:last-child) {
           margin-bottom: 16px;
         }
 
         @media (min-width: ${breakpoint}) {
-          .app {
+          .cards {
             flex-direction: row;
             align-items: flex-start;
             justify-content: center;
           }
-          .app > :global(*):not(:last-child) {
+          .cards > :global(*):not(:last-child) {
             margin-bottom: 0px;
             margin-right: 16px;
+          }
+          h4 {
+            margin-bottom: 40px;
           }
         }
       `}</style>
@@ -59,6 +88,7 @@ export default () => {
         li,
         h1,
         h3,
+        h4,
         h5,
         body {
           margin: 0;
@@ -91,7 +121,7 @@ export default () => {
           --border-radius-small: 5px;
           --border-radius-medium: 8px;
           --text-font-size: 14px;
-          --list-font-size: 16px;
+          --list-font-size: 15px;
           --dividing-border: 1px solid #e6e6e6;
           --modal-opacity-transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }

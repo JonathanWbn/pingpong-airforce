@@ -47,13 +47,10 @@ export default ({ isOpen, onClose, onSubmit, initialValues }) => {
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        title={`${initialValues ? 'Edit' : 'Add'} Player`}
         onSubmit={e => {
           e.preventDefault()
           if (!animal) alert('Please select an animal.')
-          else if (players.some(player => player.name.toLowerCase() === name.toLowerCase())) {
-            alert('A Player with this name already exists. Please choose a different one.')
-          } else onSubmit({ name, animal })
+          else onSubmit({ name, animal })
         }}
       >
         <div className="input-container">
@@ -64,7 +61,7 @@ export default ({ isOpen, onClose, onSubmit, initialValues }) => {
             <img
               key={id}
               className={`animal ${id === animal ? 'selected' : ''}`}
-              src={`/static/animals/${id}.png`}
+              src={`/animals/${id}.png`}
               alt={name}
               title={name}
               onClick={() => setAnimal(id)}
