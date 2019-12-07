@@ -1,4 +1,6 @@
-export default ({ isOpen, onClose, onSubmit, title, children }) => {
+import { bool, func, node } from 'prop-types'
+
+export default function Modal({ isOpen, onClose, onSubmit, children }) {
   const modalRef = React.useRef()
   const [fullyClosed, setFullyClosed] = React.useState(true)
 
@@ -100,4 +102,11 @@ export default ({ isOpen, onClose, onSubmit, title, children }) => {
       `}</style>
     </>
   )
+}
+
+Modal.propTypes = {
+  isOpen: bool,
+  onClose: func.isRequired,
+  onSubmit: func,
+  children: node
 }

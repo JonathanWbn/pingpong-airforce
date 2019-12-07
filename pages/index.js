@@ -7,7 +7,7 @@ import Players from '../components/players'
 export const breakpoint = '900px'
 export const DataContext = React.createContext({})
 
-export default () => {
+export default function App() {
   const [players, setPlayers] = React.useState([])
   const [games, setGames] = React.useState([])
   const [refetchTrigger, setRefetchTrigger] = React.useState(false)
@@ -29,7 +29,7 @@ export default () => {
         <div className="app">
           <h4>
             the <span className="soft">un</span>official scoreboard of the ping pong table at{' '}
-            <a href="https://epages.com/" target="_blank">
+            <a href="https://epages.com/" target="_blank" rel="noopener noreferrer">
               epages
             </a>{' '}
             headquarters
@@ -46,11 +46,11 @@ export default () => {
           )}
           <h4>
             made with 🥤 by{' '}
-            <a href="https://twitter.com/jonathan_wbn" target="_blank">
+            <a href="https://twitter.com/jonathan_wbn" target="_blank" rel="noopener noreferrer">
               @jonathan_wbn
             </a>{' '}
             |{' '}
-            <a href="https://github.com/JonathanWbn/pingpong-airforce" target="_blank">
+            <a href="https://github.com/JonathanWbn/pingpong-airforce" target="_blank" rel="noopener noreferrer">
               source
             </a>
           </h4>

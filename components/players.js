@@ -4,7 +4,7 @@ import { DataContext, breakpoint } from '../pages/index.js'
 import Card from './card.js'
 import PlayerModal from './player-modal'
 
-export default () => {
+export default function Players() {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
   const { games, players, refetch } = React.useContext(DataContext)

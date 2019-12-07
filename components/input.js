@@ -1,4 +1,6 @@
-export default ({ onChange, ...props }) => {
+import { func } from 'prop-types'
+
+export default function Input({ onChange, ...props }) {
   return (
     <>
       <input onChange={e => onChange(e.target.value)} {...props} />
@@ -23,4 +25,8 @@ export default ({ onChange, ...props }) => {
       `}</style>
     </>
   )
+}
+
+Input.propTypes = {
+  onChange: func.isRequired
 }

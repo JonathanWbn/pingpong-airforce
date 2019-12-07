@@ -1,4 +1,6 @@
-import { DataContext, breakpoint } from '../pages'
+import { bool, func, shape, string } from 'prop-types'
+
+import { breakpoint } from '../pages'
 import Input from './input'
 import Modal from './modal'
 
@@ -29,11 +31,9 @@ const animals = [
   { name: 'Penguin', id: '047-penguin' }
 ]
 
-export default ({ isOpen, onClose, onSubmit, initialValues }) => {
+export default function PlayerModal({ isOpen, onClose, onSubmit, initialValues }) {
   const [name, setName] = React.useState('')
   const [animal, setAnimal] = React.useState('')
-
-  const { players } = React.useContext(DataContext)
 
   React.useEffect(() => {
     if (isOpen) {
@@ -114,4 +114,14 @@ export default ({ isOpen, onClose, onSubmit, initialValues }) => {
       `}</style>
     </>
   )
+}
+
+PlayerModal.propTypes = {
+  isOpen: bool,
+  onClose: func.isRequired,
+  onSubmit: func,
+  initialValues: shape({
+    name: string,
+    animal: string
+  })
 }

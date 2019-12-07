@@ -1,9 +1,11 @@
+import { bool, func, number, shape, string } from 'prop-types'
+
 import { DataContext, breakpoint } from '../pages'
 import Input from './input'
 import Modal from './modal'
 import Select from './select'
 
-export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
+export default function GameModal({ isOpen, onClose, onSubmit, initialValues = {} }) {
   const [score, setScore] = React.useState({ player1: '', player2: '' })
   const [player1, setPlayer1] = React.useState('')
   const [player2, setPlayer2] = React.useState('')
@@ -110,4 +112,18 @@ export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
       `}</style>
     </>
   )
+}
+
+GameModal.propTypes = {
+  isOpen: bool,
+  onSubmit: func,
+  onClose: func,
+  initialValues: shape({
+    player1: string,
+    player2: string,
+    score: shape({
+      player1: number,
+      player2: number
+    })
+  })
 }

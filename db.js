@@ -12,7 +12,7 @@ export async function connectToDatabase() {
   const client = await MongoClient.connect(mongoURL, { useNewUrlParser: true })
 
   const db = await client.db(url.parse(mongoURL).pathname.substr(1))
-  cachedDb = db
+  cachedDb = db // eslint-disable-line require-atomic-updates
 
   return db
 }
