@@ -1,19 +1,19 @@
-import axios from "axios";
+import axios from 'axios'
 
-import Games from "../components/games";
-import Ranking from "../components/ranking";
+import Games from '../components/games'
+import Ranking from '../components/ranking'
 
-export const breakpoint = "900px";
-export const DataContext = React.createContext({});
+export const breakpoint = '900px'
+export const DataContext = React.createContext({})
 
 export default () => {
-  const [players, setPlayers] = React.useState([]);
-  const [games, setGames] = React.useState([]);
+  const [players, setPlayers] = React.useState([])
+  const [games, setGames] = React.useState([])
 
   React.useEffect(() => {
-    axios.get("/api/players").then(({ data }) => setPlayers(data));
-    axios.get("/api/games").then(({ data }) => setGames(data));
-  }, []);
+    axios.get('/api/players').then(({ data }) => setPlayers(data))
+    axios.get('/api/games').then(({ data }) => setGames(data))
+  }, [])
 
   return (
     <>
@@ -52,9 +52,8 @@ export default () => {
       <style jsx global>{`
         * {
           box-sizing: border-box;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-            "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-            "Helvetica Neue", sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+            'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
         }
         ol,
         li,
@@ -108,5 +107,5 @@ export default () => {
         }
       `}</style>
     </>
-  );
-};
+  )
+}

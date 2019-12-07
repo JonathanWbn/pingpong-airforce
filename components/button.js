@@ -1,4 +1,4 @@
-import { breakpoint } from "../pages";
+import { breakpoint } from '../pages'
 
 export default ({ onClick, children }) => (
   <>
@@ -28,4 +28,4 @@ export default ({ onClick, children }) => (
       }
     `}</style>
   </>
-);
+)

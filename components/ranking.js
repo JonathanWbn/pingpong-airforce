@@ -1,60 +1,53 @@
-import axios from "axios";
+import axios from 'axios'
 
-import { DataContext, breakpoint } from "../pages/index.js";
-import Card from "./card.js";
-import PlayerModal from "./player-modal";
+import { DataContext, breakpoint } from '../pages/index.js'
+import Card from './card.js'
+import PlayerModal from './player-modal'
 
 export default () => {
-  const [modalIsOpen, setModalIsOpen] = React.useState(false);
-  const [player, setPlayer] = React.useState(null);
-  const { games, players } = React.useContext(DataContext);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false)
+  const [player, setPlayer] = React.useState(null)
+  const { games, players } = React.useContext(DataContext)
 
   const getGamesWon = player =>
     games.reduce((acc, game) => {
-      if (game.player1 === player && game.score.player1 > game.score.player2)
-        return acc + 1;
-      if (game.player2 === player && game.score.player2 > game.score.player1)
-        return acc + 1;
-      return acc;
-    }, 0);
+      if (game.player1 === player && game.score.player1 > game.score.player2) return acc + 1
+      if (game.player2 === player && game.score.player2 > game.score.player1) return acc + 1
+      return acc
+    }, 0)
   const getGamesLost = player =>
     games.reduce((acc, game) => {
-      if (game.player1 === player && game.score.player1 < game.score.player2)
-        return acc + 1;
-      if (game.player2 === player && game.score.player2 < game.score.player1)
-        return acc + 1;
-      return acc;
-    }, 0);
+      if (game.player1 === player && game.score.player1 < game.score.player2) return acc + 1
+      if (game.player2 === player && game.score.player2 < game.score.player1) return acc + 1
+      return acc
+    }, 0)
   const getGamesTied = player =>
     games.reduce((acc, game) => {
-      if (
-        (game.player1 === player || game.player2 === player) &&
-        game.score.player1 === game.score.player2
-      )
-        return acc + 1;
-      return acc;
-    }, 0);
-  const getPoints = player => getGamesWon(player) - getGamesLost(player);
+      if ((game.player1 === player || game.player2 === player) && game.score.player1 === game.score.player2)
+        return acc + 1
+      return acc
+    }, 0)
+  const getPoints = player => getGamesWon(player) - getGamesLost(player)
 
   return (
     <>
       <PlayerModal
         isOpen={modalIsOpen || Boolean(player)}
         onClose={() => {
-          setModalIsOpen(false);
-          setPlayer(null);
+          setModalIsOpen(false)
+          setPlayer(null)
         }}
         initialValues={player}
         onSubmit={values => {
-          if (player) axios.patch("/api/player", values);
-          else axios.post("/api/player", values);
+          if (player) axios.patch('/api/player', values)
+          else axios.post('/api/player', values)
         }}
       />
       <Card
         heading="Ranking"
         footer={`${players.length} players`}
         actionButton={{
-          label: "add player",
+          label: 'add player',
           onClick: () => setModalIsOpen(true)
         }}
       >
@@ -143,5 +136,5 @@ export default () => {
         }
       `}</style>
     </>
-  );
-};
+  )
+}

@@ -1,21 +1,21 @@
 export default ({ isOpen, onClose, onSubmit, title, children }) => {
-  const modalRef = React.useRef();
-  const [fullyClosed, setFullyClosed] = React.useState(true);
+  const modalRef = React.useRef()
+  const [fullyClosed, setFullyClosed] = React.useState(true)
 
   React.useEffect(() => {
-    if (isOpen) setFullyClosed(false);
-    else setTimeout(() => setFullyClosed(true), 350);
-  }, [isOpen]);
+    if (isOpen) setFullyClosed(false)
+    else setTimeout(() => setFullyClosed(true), 350)
+  }, [isOpen])
 
   React.useEffect(() => {
     function handleClick(e) {
       if (isOpen && !modalRef.current.contains(e.target)) {
-        onClose();
+        onClose()
       }
     }
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
-  }, [isOpen, modalRef]);
+    window.addEventListener('click', handleClick)
+    return () => window.removeEventListener('click', handleClick)
+  }, [isOpen, modalRef])
 
   return (
     <>
@@ -97,5 +97,5 @@ export default ({ isOpen, onClose, onSubmit, title, children }) => {
         }
       `}</style>
     </>
-  );
-};
+  )
+}

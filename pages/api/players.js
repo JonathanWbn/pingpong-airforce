@@ -1,8 +1,8 @@
-import mockData from "../../mock-data.json";
+import mockData from '../../mock-data.json'
 
 export default function handle(req, res) {
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     // get and send players
-    res.send(mockData.players);
+    res.send(mockData.players)
   }
 }

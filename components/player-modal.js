@@ -1,65 +1,59 @@
-import { DataContext, breakpoint } from "../pages";
-import Input from "./input";
-import Modal from "./modal";
+import { DataContext, breakpoint } from '../pages'
+import Input from './input'
+import Modal from './modal'
 
 const animals = [
-  { name: "Dog", id: "002-dog" },
-  { name: "Pandabear", id: "001-pandabear" },
-  { name: "Elephant", id: "003-elephant" },
-  { name: "Sheep", id: "004-sheep" },
-  { name: "Fox", id: "005-fox" },
-  { name: "Crocodile", id: "006-crocodile" },
-  { name: "Llama", id: "007-llama" },
-  { name: "Zebra", id: "008-zebra" },
-  { name: "Horse", id: "009-horse" },
-  { name: "Snake", id: "010-snake" },
-  { name: "Bear", id: "011-bear" },
-  { name: "Cat", id: "012-cat" },
-  { name: "Rhinoceros", id: "013-rhinoceros" },
-  { name: "Sloth", id: "014-sloth" },
-  { name: "Whale", id: "015-whale" },
-  { name: "Frog", id: "016-frog" },
-  { name: "Hippopotamus", id: "017-hippopotamus" },
-  { name: "Koala", id: "018-koala" },
-  { name: "Boar", id: "019-boar" },
-  { name: "Pig", id: "020-pig" },
-  { name: "Guineapig", id: "021-guineapig" },
-  { name: "Squirrel", id: "022-squirrel" },
-  { name: "Lemur", id: "023-lemur" },
-  { name: "Penguin", id: "047-penguin" }
-];
+  { name: 'Dog', id: '002-dog' },
+  { name: 'Pandabear', id: '001-pandabear' },
+  { name: 'Elephant', id: '003-elephant' },
+  { name: 'Sheep', id: '004-sheep' },
+  { name: 'Fox', id: '005-fox' },
+  { name: 'Crocodile', id: '006-crocodile' },
+  { name: 'Llama', id: '007-llama' },
+  { name: 'Zebra', id: '008-zebra' },
+  { name: 'Horse', id: '009-horse' },
+  { name: 'Snake', id: '010-snake' },
+  { name: 'Bear', id: '011-bear' },
+  { name: 'Cat', id: '012-cat' },
+  { name: 'Rhinoceros', id: '013-rhinoceros' },
+  { name: 'Sloth', id: '014-sloth' },
+  { name: 'Whale', id: '015-whale' },
+  { name: 'Frog', id: '016-frog' },
+  { name: 'Hippopotamus', id: '017-hippopotamus' },
+  { name: 'Koala', id: '018-koala' },
+  { name: 'Boar', id: '019-boar' },
+  { name: 'Pig', id: '020-pig' },
+  { name: 'Guineapig', id: '021-guineapig' },
+  { name: 'Squirrel', id: '022-squirrel' },
+  { name: 'Lemur', id: '023-lemur' },
+  { name: 'Penguin', id: '047-penguin' }
+]
 
 export default ({ isOpen, onClose, onSubmit, initialValues }) => {
-  const [name, setName] = React.useState("");
-  const [animal, setAnimal] = React.useState("");
+  const [name, setName] = React.useState('')
+  const [animal, setAnimal] = React.useState('')
 
-  const { players } = React.useContext(DataContext);
+  const { players } = React.useContext(DataContext)
 
   React.useEffect(() => {
     if (isOpen) {
-      setName((initialValues && initialValues.name) || "");
-      setAnimal((initialValues && initialValues.animal) || "");
+      setName((initialValues && initialValues.name) || '')
+      setAnimal((initialValues && initialValues.animal) || '')
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   return (
     <>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        title={`${initialValues ? "Edit" : "Add"} Player`}
+        title={`${initialValues ? 'Edit' : 'Add'} Player`}
         onSubmit={e => {
-          e.preventDefault();
-          if (!animal) alert("Please select an animal.");
-          else if (
-            players.some(
-              player => player.name.toLowerCase() === name.toLowerCase()
-            )
-          )
-            alert(
-              "A Player with this name already exists. Please choose a different one."
-            );
-          else onSubmit({ name, animal });
+          e.preventDefault()
+          if (!animal) alert('Please select an animal.')
+          else if (players.some(player => player.name.toLowerCase() === name.toLowerCase())) {
+            alert('A Player with this name already exists. Please choose a different one.')
+          } else onSubmit({ name, animal })
         }}
       >
         <div className="input-container">
@@ -69,7 +63,7 @@ export default ({ isOpen, onClose, onSubmit, initialValues }) => {
           {animals.map(({ id, name }) => (
             <img
               key={id}
-              className={`animal ${id === animal ? "selected" : ""}`}
+              className={`animal ${id === animal ? 'selected' : ''}`}
               src={`/static/animals/${id}.png`}
               alt={name}
               title={name}
@@ -122,5 +116,5 @@ export default ({ isOpen, onClose, onSubmit, initialValues }) => {
         }
       `}</style>
     </>
-  );
-};
+  )
+}

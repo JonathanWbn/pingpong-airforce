@@ -23,5 +23,5 @@ export default ({ onChange, ...props }) => {
         }
       `}</style>
     </>
-  );
-};
+  )
+}

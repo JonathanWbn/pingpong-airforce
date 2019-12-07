@@ -1,5 +1,5 @@
-import { breakpoint } from "../pages";
-import Button from "./button";
+import { breakpoint } from '../pages'
+import Button from './button'
 
 export default ({ heading, children, footer, actionButton }) => (
   <>
@@ -49,4 +49,4 @@ export default ({ heading, children, footer, actionButton }) => (
       }
     `}</style>
   </>
-);
+)

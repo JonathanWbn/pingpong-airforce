@@ -34,19 +34,27 @@ export default () => {
         }}
       >
         <ol>
-          {games.map(({ player1, player2, score }, i) => (
-            <li key={i} onClick={() => setGame({ player1, player2, score })}>
-              <div className="player player-1">
-                <img src={`/static/animals/${getPlayer(player1).animal}.png`} />
-                {player1}
-              </div>
-              {score.player1} : {score.player2}
-              <div className="player player-2">
-                {player2}
-                <img src={`/static/animals/${getPlayer(player2).animal}.png`} />
-              </div>
-            </li>
-          ))}
+          {games
+            .filter(
+              ({ player1, player2 }) => getPlayer(player1) && getPlayer(player2)
+            )
+            .map(({ player1, player2, score }, i) => (
+              <li key={i} onClick={() => setGame({ player1, player2, score })}>
+                <div className="player player-1">
+                  <img
+                    src={`/static/animals/${getPlayer(player1).animal}.png`}
+                  />
+                  {player1}
+                </div>
+                {score.player1} : {score.player2}
+                <div className="player player-2">
+                  {player2}
+                  <img
+                    src={`/static/animals/${getPlayer(player2).animal}.png`}
+                  />
+                </div>
+              </li>
+            ))}
         </ol>
       </Card>
       <style jsx>{`
