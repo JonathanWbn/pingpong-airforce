@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Head from 'next/head'
 
 import Games from '../components/games'
 import Players from '../components/players'
@@ -18,6 +19,10 @@ export default () => {
 
   return (
     <>
+      <Head>
+        <title>Ping Pong Airforce</title>
+        <link rel="shortcut icon" type="image/png" href="/favicon.png"></link>
+      </Head>
       <DataContext.Provider value={{ games, players, refetch: () => setRefetchTrigger(v => !v) }}>
         <div className="app">
           <h4>
