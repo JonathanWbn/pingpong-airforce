@@ -23,7 +23,7 @@ export default () => {
           <h4>
             the <span className="soft">un</span>official scoreboard of the ping pong table at{' '}
             <a href="https://epages.com/" target="_blank">
-              ePages
+              epages
             </a>{' '}
             headquarters
           </h4>
@@ -31,6 +31,16 @@ export default () => {
             <Games />
             <Players />
           </div>
+          <h4>
+            made with 🥤 by{' '}
+            <a href="https://twitter.com/jonathan_wbn" target="_blank">
+              @jonathan_wbn
+            </a>{' '}
+            |{' '}
+            <a href="https://github.com/JonathanWbn/pingpong-airforce" target="_blank">
+              source
+            </a>
+          </h4>
         </div>
       </DataContext.Provider>
       <style jsx>{`
@@ -39,12 +49,13 @@ export default () => {
           width: 100vw;
           background-color: var(--body-background);
           padding: 16px;
+          display: flex;
+          flex-direction: column;
         }
         h4 {
           text-align: center;
           font-weight: 300;
           color: var(--dark-grey);
-          margin-bottom: 16px;
         }
         h4 .soft {
           color: var(--grey);
@@ -58,6 +69,8 @@ export default () => {
           display: flex;
           flex-direction: column;
           align-items: center;
+          flex-grow: 1;
+          padding: 20px 0;
         }
         .cards > :global(*):not(:last-child) {
           margin-bottom: 16px;
@@ -72,9 +85,6 @@ export default () => {
           .cards > :global(*):not(:last-child) {
             margin-bottom: 0px;
             margin-right: 16px;
-          }
-          h4 {
-            margin-bottom: 40px;
           }
         }
       `}</style>
