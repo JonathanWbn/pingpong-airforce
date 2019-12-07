@@ -1,5 +1,4 @@
-import mockData from "../mock-data.json";
-import { breakpoint } from "../pages";
+import { DataContext, breakpoint } from "../pages";
 import Input from "./input";
 import Modal from "./modal";
 import Select from "./select";
@@ -8,6 +7,8 @@ export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
   const [score, setScore] = React.useState({ player1: "", player2: "" });
   const [player1, setPlayer1] = React.useState("");
   const [player2, setPlayer2] = React.useState("");
+
+  const { players } = React.useContext(DataContext);
 
   React.useEffect(() => {
     if (isOpen) {
@@ -39,7 +40,7 @@ export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
               <span>Player 1</span>
               <Select value={player1} onChange={setPlayer1}>
                 <option value="">---</option>
-                {mockData.players.map(player => (
+                {players.map(player => (
                   <option key={player.name} value={player.name}>
                     {player.name}
                   </option>
@@ -60,7 +61,7 @@ export default ({ isOpen, onClose, onSubmit, initialValues = {} }) => {
               <span>Player 2</span>
               <Select value={player2} onChange={setPlayer2}>
                 <option value="">---</option>
-                {mockData.players.map(player => (
+                {players.map(player => (
                   <option key={player.name} value={player.name}>
                     {player.name}
                   </option>

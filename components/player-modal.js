@@ -1,4 +1,4 @@
-import { breakpoint } from "../pages";
+import { DataContext, breakpoint } from "../pages";
 import Input from "./input";
 import Modal from "./modal";
 
@@ -33,6 +33,8 @@ export default ({ isOpen, onClose, onSubmit, initialValues }) => {
   const [name, setName] = React.useState("");
   const [animal, setAnimal] = React.useState("");
 
+  const { players } = React.useContext(DataContext);
+
   React.useEffect(() => {
     if (isOpen) {
       setName((initialValues && initialValues.name) || "");
@@ -49,6 +51,14 @@ export default ({ isOpen, onClose, onSubmit, initialValues }) => {
         onSubmit={e => {
           e.preventDefault();
           if (!animal) alert("Please select an animal.");
+          else if (
+            players.some(
+              player => player.name.toLowerCase() === name.toLowerCase()
+            )
+          )
+            alert(
+              "A Player with this name already exists. Please choose a different one."
+            );
           else onSubmit({ name, animal });
         }}
       >

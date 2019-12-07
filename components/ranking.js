@@ -1,38 +1,40 @@
-import mockData from "../mock-data.json";
-import { breakpoint } from "../pages/index.js";
+import axios from "axios";
+
+import { DataContext, breakpoint } from "../pages/index.js";
 import Card from "./card.js";
 import PlayerModal from "./player-modal";
-
-const getGamesWon = player =>
-  mockData.games.reduce((acc, game) => {
-    if (game.player1 === player && game.score.player1 > game.score.player2)
-      return acc + 1;
-    if (game.player2 === player && game.score.player2 > game.score.player1)
-      return acc + 1;
-    return acc;
-  }, 0);
-const getGamesLost = player =>
-  mockData.games.reduce((acc, game) => {
-    if (game.player1 === player && game.score.player1 < game.score.player2)
-      return acc + 1;
-    if (game.player2 === player && game.score.player2 < game.score.player1)
-      return acc + 1;
-    return acc;
-  }, 0);
-const getGamesTied = player =>
-  mockData.games.reduce((acc, game) => {
-    if (
-      (game.player1 === player || game.player2 === player) &&
-      game.score.player1 === game.score.player2
-    )
-      return acc + 1;
-    return acc;
-  }, 0);
-const getPoints = player => getGamesWon(player) - getGamesLost(player);
 
 export default () => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [player, setPlayer] = React.useState(null);
+  const { games, players } = React.useContext(DataContext);
+
+  const getGamesWon = player =>
+    games.reduce((acc, game) => {
+      if (game.player1 === player && game.score.player1 > game.score.player2)
+        return acc + 1;
+      if (game.player2 === player && game.score.player2 > game.score.player1)
+        return acc + 1;
+      return acc;
+    }, 0);
+  const getGamesLost = player =>
+    games.reduce((acc, game) => {
+      if (game.player1 === player && game.score.player1 < game.score.player2)
+        return acc + 1;
+      if (game.player2 === player && game.score.player2 < game.score.player1)
+        return acc + 1;
+      return acc;
+    }, 0);
+  const getGamesTied = player =>
+    games.reduce((acc, game) => {
+      if (
+        (game.player1 === player || game.player2 === player) &&
+        game.score.player1 === game.score.player2
+      )
+        return acc + 1;
+      return acc;
+    }, 0);
+  const getPoints = player => getGamesWon(player) - getGamesLost(player);
 
   return (
     <>
@@ -44,20 +46,13 @@ export default () => {
         }}
         initialValues={player}
         onSubmit={values => {
-          if (
-            mockData.players.some(
-              player => player.name.toLowerCase() === values.name.toLowerCase()
-            )
-          )
-            alert(
-              "A Player with this name already exists. Please choose a different one."
-            );
-          else console.log(values);
+          if (player) axios.patch("/api/player", values);
+          else axios.post("/api/player", values);
         }}
       />
       <Card
         heading="Ranking"
-        footer={`${mockData.players.length} players`}
+        footer={`${players.length} players`}
         actionButton={{
           label: "add player",
           onClick: () => setModalIsOpen(true)
@@ -70,7 +65,7 @@ export default () => {
           <div className="descriptor">T</div>
         </div>
         <ol>
-          {mockData.players
+          {players
             .sort((p1, p2) => getPoints(p2.name) - getPoints(p1.name))
             .map(({ name, animal }, i) => (
               <li key={i} onClick={() => setPlayer({ name, animal })}>

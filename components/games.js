@@ -1,13 +1,15 @@
-import mockData from "../mock-data.json";
-import { breakpoint } from "../pages/index.js";
+import axios from "axios";
+
+import { DataContext, breakpoint } from "../pages/index.js";
 import Card from "./card.js";
 import GameModal from "./game-modal";
-
-const getPlayer = name => mockData.players.find(player => player.name === name);
 
 export default () => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [game, setGame] = React.useState(null);
+  const { games, players } = React.useContext(DataContext);
+
+  const getPlayer = name => players.find(player => player.name === name);
 
   return (
     <>
@@ -17,22 +19,22 @@ export default () => {
           setModalIsOpen(false);
           setGame(null);
         }}
-        title="Add Game"
         onSubmit={values => {
-          console.log(values);
+          if (game) axios.patch("/api/game", values);
+          else axios.post("/api/game", values);
         }}
         initialValues={game}
       />
       <Card
         heading="Games"
-        footer={`${mockData.games.length} games`}
+        footer={`${games.length} games`}
         actionButton={{
           label: "add game",
           onClick: () => setModalIsOpen(true)
         }}
       >
         <ol>
-          {mockData.games.map(({ player1, player2, score }, i) => (
+          {games.map(({ player1, player2, score }, i) => (
             <li key={i} onClick={() => setGame({ player1, player2, score })}>
               <div className="player player-1">
                 <img src={`/static/animals/${getPlayer(player1).animal}.png`} />
