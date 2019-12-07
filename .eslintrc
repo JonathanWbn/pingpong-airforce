@@ -13,6 +13,7 @@
     "React": true
   },
   "rules": {
-    "react/jsx-no-undef": [2, { "allowGlobals": true }]
+    "react/jsx-no-undef": [2, { "allowGlobals": true }],
+    "no-extra-semi": 0
   }
 }

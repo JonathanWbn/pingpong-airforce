@@ -1,8 +1,9 @@
 import axios from 'axios'
 
-import { DataContext, breakpoint } from '../pages/index.js'
+import { DataContext } from '../pages/index.js'
 import Card from './card.js'
 import GameModal from './game-modal'
+import List from './list.js'
 
 export default function Games() {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
@@ -36,7 +37,7 @@ export default function Games() {
           onClick: () => setModalIsOpen(true)
         }}
       >
-        <ol>
+        <List>
           {games
             .filter(({ player1, player2 }) => getPlayer(player1) && getPlayer(player2))
             .map(game => ({ ...game, player1Obj: getPlayer(game.player1), player2Obj: getPlayer(game.player2) }))
@@ -53,22 +54,9 @@ export default function Games() {
                 </div>
               </li>
             ))}
-        </ol>
+        </List>
       </Card>
       <style jsx>{`
-        ol {
-          padding: 0 20px;
-        }
-        li {
-          border-top: var(--dividing-border);
-          list-style-type: none;
-          padding: 10px 0;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          cursor: pointer;
-          font-size: var(--list-font-size);
-        }
         .player {
           display: flex;
           align-items: center;
@@ -83,18 +71,6 @@ export default function Games() {
         }
         .player-2 > img {
           margin-left: 10px;
-        }
-        img {
-          height: 25px;
-          width: 25px;
-          object-fit: cover;
-        }
-
-        @media (min-width: ${breakpoint}) {
-          img {
-            height: 30px;
-            width: 30px;
-          }
         }
       `}</style>
     </>

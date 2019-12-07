@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import { bool, func, shape, string } from 'prop-types'
 
 import { breakpoint } from '../pages'
@@ -60,7 +61,7 @@ export default function PlayerModal({ isOpen, onClose, onSubmit, initialValues }
           {animals.map(({ id, name }) => (
             <img
               key={id}
-              className={`animal ${id === animal ? 'selected' : ''}`}
+              className={classnames('animal', id === animal && 'selected')}
               src={`/animals/${id}.png`}
               alt={name}
               title={name}

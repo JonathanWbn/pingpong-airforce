@@ -14,9 +14,13 @@ export default function App() {
   const [isLoading, setIsLoading] = React.useState(true)
 
   React.useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1500)
-    axios.get('/api/players').then(({ data }) => setPlayers(data))
-    axios.get('/api/games').then(({ data }) => setGames(data))
+    ;(async () => {
+      await Promise.all([
+        axios.get('/api/players').then(({ data }) => setPlayers(data)),
+        axios.get('/api/games').then(({ data }) => setGames(data))
+      ])
+      setIsLoading(false)
+    })()
   }, [refetchTrigger])
 
   return (

@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import { DataContext, breakpoint } from '../pages/index.js'
 import Card from './card.js'
+import List from './list'
 import PlayerModal from './player-modal'
 
 export default function Players() {
@@ -48,12 +49,12 @@ export default function Players() {
           onClick: () => setModalIsOpen(true)
         }}
       >
-        <div className="table-header">
+        <div className="descriptions">
           <div className="descriptor">P</div>
           <div className="descriptor">W</div>
           <div className="descriptor">L</div>
         </div>
-        <ol>
+        <List>
           {players
             .sort((p1, p2) => getPoints(p2._id) - getPoints(p1._id))
             .map((player, i) => (
@@ -70,71 +71,49 @@ export default function Players() {
                 </div>
               </li>
             ))}
-        </ol>
+        </List>
       </Card>
       <style jsx>{`
-        .table-header {
+        .descriptions {
           height: 15px;
           display: flex;
           justify-content: flex-end;
           padding: 0 20px;
           margin-bottom: 5px;
         }
+        .score,
+        .descriptor {
+          width: 30px;
+        }
         .descriptor {
           font-size: var(--list-font-size);
           line-height: var(--list-font-size);
-          width: 30px;
           color: var(--grey);
           text-align: center;
           font-weight: 300;
         }
-        ol {
-          padding: 0 20px;
-        }
-        li {
-          cursor: pointer;
-          border-top: var(--dividing-border);
-          list-style-type: none;
-          padding: 10px 0;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-        li img {
-          height: 25px;
-          width: 25px;
-          object-fit: cover;
-          margin: 0 10px;
-        }
         .player {
           display: flex;
           align-items: center;
-          font-size: var(--list-font-size);
-          line-height: var(--list-font-size);
+          overflow: hidden;
+        }
+        img {
+          margin: 0 10px;
         }
         .scores {
           display: flex;
         }
         .score {
-          width: 30px;
           text-align: center;
-          font-size: var(--list-font-size);
-          line-height: var(--list-font-size);
         }
         .score:not(:last-child) {
           border-right: var(--dividing-border);
         }
 
         @media (min-width: ${breakpoint}) {
-          .score {
-            width: 40px;
-          }
+          .score,
           .descriptor {
             width: 40px;
-          }
-          img {
-            height: 30px;
-            width: 30px;
           }
         }
       `}</style>

@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import { bool, func, number, shape, string } from 'prop-types'
 
 import { DataContext, breakpoint } from '../pages'
@@ -34,7 +35,7 @@ export default function GameModal({ isOpen, onClose, onSubmit, initialValues = {
       >
         <div className="container">
           <div className="player-column">
-            <label className={score.player1 > score.player2 ? 'winning' : ''}>
+            <label className={classnames(score.player1 > score.player2 && 'winning')}>
               <span>Player 1</span>
               <Select value={player1} onChange={setPlayer1}>
                 <option value="">---</option>
@@ -55,7 +56,7 @@ export default function GameModal({ isOpen, onClose, onSubmit, initialValues = {
           </div>
           <h5>vs.</h5>
           <div className="player-column">
-            <label className={score.player2 > score.player1 ? 'winning' : ''}>
+            <label className={classnames(score.player2 > score.player1 && 'winning')}>
               <span>Player 2</span>
               <Select value={player2} onChange={setPlayer2}>
                 <option value="">---</option>
