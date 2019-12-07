@@ -11,8 +11,10 @@ export default () => {
   const [players, setPlayers] = React.useState([])
   const [games, setGames] = React.useState([])
   const [refetchTrigger, setRefetchTrigger] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(true)
 
   React.useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1500)
     axios.get('/api/players').then(({ data }) => setPlayers(data))
     axios.get('/api/games').then(({ data }) => setGames(data))
   }, [refetchTrigger])
@@ -32,10 +34,16 @@ export default () => {
             </a>{' '}
             headquarters
           </h4>
-          <div className="cards">
-            <Games />
-            <Players />
-          </div>
+          {isLoading ? (
+            <div className="loading">
+              <img src="/loading.gif" />
+            </div>
+          ) : (
+            <div className="cards">
+              <Games />
+              <Players />
+            </div>
+          )}
           <h4>
             made with 🥤 by{' '}
             <a href="https://twitter.com/jonathan_wbn" target="_blank">
@@ -56,6 +64,13 @@ export default () => {
           padding: 16px;
           display: flex;
           flex-direction: column;
+        }
+        .loading {
+          flex-grow: 1;
+          display: flex;
+          align-items: center;
+          justifty-content: center;
+          align-self: center;
         }
         h4 {
           text-align: center;

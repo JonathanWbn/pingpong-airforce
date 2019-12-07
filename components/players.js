@@ -55,7 +55,7 @@ export default () => {
         </div>
         <ol>
           {players
-            .sort((p1, p2) => getPoints(p2.name) - getPoints(p1.name))
+            .sort((p1, p2) => getPoints(p2._id) - getPoints(p1._id))
             .map((player, i) => (
               <li key={player._id} onClick={() => setPlayer(player)}>
                 <div className="player">
