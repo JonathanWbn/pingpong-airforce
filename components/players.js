@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import { DataContext, breakpoint } from '../pages/index.js'
 import Card from './card.js'
 import List from './list'
@@ -8,7 +6,7 @@ import PlayerModal from './player-modal'
 export default function Players() {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
-  const { games, players, refetch } = React.useContext(DataContext)
+  const { games, players } = React.useContext(DataContext)
 
   const getGamesWon = player =>
     games.reduce((acc, game) => {
@@ -33,13 +31,6 @@ export default function Players() {
           setPlayer(null)
         }}
         initialValues={player}
-        onSubmit={async values => {
-          if (player) await axios.post(`/api/players/${player._id}`, values)
-          else await axios.post('/api/players', values)
-          setModalIsOpen(false)
-          setPlayer(null)
-          refetch()
-        }}
       />
       <Card
         heading="Players"

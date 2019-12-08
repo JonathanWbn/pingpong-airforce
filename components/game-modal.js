@@ -1,3 +1,4 @@
+import axios from 'axios'
 import classnames from 'classnames'
 import { bool, func, number, shape, string } from 'prop-types'
 
@@ -6,12 +7,13 @@ import Input from './input'
 import Modal from './modal'
 import Select from './select'
 
-export default function GameModal({ isOpen, onClose, onSubmit, initialValues = {} }) {
+export default function GameModal({ isOpen, onClose, initialValues = {} }) {
   const [score, setScore] = React.useState({ player1: '', player2: '' })
   const [player1, setPlayer1] = React.useState('')
   const [player2, setPlayer2] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
 
-  const { players } = React.useContext(DataContext)
+  const { players, refetch } = React.useContext(DataContext)
 
   React.useEffect(() => {
     if (isOpen) {
@@ -21,18 +23,23 @@ export default function GameModal({ isOpen, onClose, onSubmit, initialValues = {
     }
   }, [isOpen])
 
+  const handleSubmit = async e => {
+    e.preventDefault()
+    const values = { player1, player2, score }
+
+    setIsLoading(true)
+    if (!player1 || !player2) alert('Please select two players.')
+    else if (player1 === player2) alert('Please select different players.')
+    else if (initialValues) await axios.post(`/api/games/${initialValues._id}`, values)
+    else await axios.post('/api/games', values)
+    await refetch()
+    setIsLoading(false)
+    onClose()
+  }
+
   return (
     <>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        onSubmit={e => {
-          e.preventDefault()
-          if (!player1 || !player2) alert('Please select two players.')
-          else if (player1 === player2) alert('Please select different players.')
-          else onSubmit({ player1, player2, score })
-        }}
-      >
+      <Modal isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} isLoading={isLoading}>
         <div className="container">
           <div className="player-column">
             <label className={classnames(score.player1 > score.player2 && 'winning')}>
@@ -117,8 +124,7 @@ export default function GameModal({ isOpen, onClose, onSubmit, initialValues = {
 
 GameModal.propTypes = {
   isOpen: bool,
-  onSubmit: func,
-  onClose: func,
+  onClose: func.isRequired,
   initialValues: shape({
     player1: string,
     player2: string,

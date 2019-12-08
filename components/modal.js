@@ -1,6 +1,7 @@
+import classnames from 'classnames'
 import { bool, func, node } from 'prop-types'
 
-export default function Modal({ isOpen, onClose, onSubmit, children }) {
+export default function Modal({ isOpen, onClose, onSubmit, children, isLoading }) {
   const modalRef = React.useRef()
   const [fullyClosed, setFullyClosed] = React.useState(true)
 
@@ -21,6 +22,8 @@ export default function Modal({ isOpen, onClose, onSubmit, children }) {
 
   if (fullyClosed) return null
 
+  const buttonIsDisabled = isLoading || !isOpen
+
   return (
     <>
       <div className="container">
@@ -31,7 +34,9 @@ export default function Modal({ isOpen, onClose, onSubmit, children }) {
             <button onClick={onClose} type="button">
               Cancel
             </button>
-            <button type="submit">Submit</button>
+            <button disabled={buttonIsDisabled} type="submit" className={classnames(buttonIsDisabled && 'loading')}>
+              {buttonIsDisabled ? '. . .' : 'Submit'}
+            </button>
           </div>
         </form>
       </div>
@@ -72,7 +77,7 @@ export default function Modal({ isOpen, onClose, onSubmit, children }) {
         .modal-footer {
           border-top: var(--dividing-border);
         }
-        .modal-footer button {
+        button {
           width: 50%;
           background-color: var(--background);
           font-size: var(--text-font-size);
@@ -81,12 +86,17 @@ export default function Modal({ isOpen, onClose, onSubmit, children }) {
           color: var(--dark-grey);
           font-weight: 300;
         }
-        .modal-footer button:hover {
+        button:hover {
           color: var(--black);
           background-color: var(--footer-background);
         }
-        .modal-footer button:first-child {
+        button:first-child {
           border-right: var(--dividing-border);
+        }
+        button.loading {
+          pointer-events: none;
+          cursor: progress;
+          background-color: var(--footer-background);
         }
         .dark-overlay {
           position: absolute;
@@ -108,5 +118,6 @@ Modal.propTypes = {
   isOpen: bool,
   onClose: func.isRequired,
   onSubmit: func,
-  children: node
+  children: node,
+  isLoading: bool
 }

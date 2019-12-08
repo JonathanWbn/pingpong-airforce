@@ -10,18 +10,17 @@ export const DataContext = React.createContext({})
 export default function App() {
   const [players, setPlayers] = React.useState([])
   const [games, setGames] = React.useState([])
-  const [refetchTrigger, setRefetchTrigger] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [showLoadingIndicator, setShowLoadingInidicator] = React.useState(true)
+
+  const fetchData = () =>
+    Promise.all([
+      axios.get('/api/players').then(({ data }) => setPlayers(data)),
+      axios.get('/api/games').then(({ data }) => setGames(data))
+    ])
 
   React.useEffect(() => {
-    ;(async () => {
-      await Promise.all([
-        axios.get('/api/players').then(({ data }) => setPlayers(data)),
-        axios.get('/api/games').then(({ data }) => setGames(data))
-      ])
-      setIsLoading(false)
-    })()
-  }, [refetchTrigger])
+    fetchData().then(() => setShowLoadingInidicator(false))
+  }, [])
 
   return (
     <>
@@ -29,7 +28,7 @@ export default function App() {
         <title>Ping Pong Airforce</title>
         <link rel="shortcut icon" type="image/png" href="/favicon.png"></link>
       </Head>
-      <DataContext.Provider value={{ games, players, refetch: () => setRefetchTrigger(v => !v) }}>
+      <DataContext.Provider value={{ games, players, refetch: fetchData }}>
         <div className="app">
           <h4>
             the <span className="soft">un</span>official scoreboard of the ping pong table at{' '}
@@ -38,7 +37,7 @@ export default function App() {
             </a>{' '}
             headquarters
           </h4>
-          {isLoading ? (
+          {showLoadingIndicator ? (
             <div className="loading">
               <img src="/loading.gif" />
             </div>

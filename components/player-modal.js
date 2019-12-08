@@ -1,7 +1,8 @@
+import axios from 'axios'
 import classnames from 'classnames'
 import { bool, func, shape, string } from 'prop-types'
 
-import { breakpoint } from '../pages'
+import { DataContext, breakpoint } from '../pages'
 import Input from './input'
 import Modal from './modal'
 
@@ -32,9 +33,12 @@ const animals = [
   { name: 'Penguin', id: '047-penguin' }
 ]
 
-export default function PlayerModal({ isOpen, onClose, onSubmit, initialValues }) {
+export default function PlayerModal({ isOpen, onClose, initialValues }) {
   const [name, setName] = React.useState('')
   const [animal, setAnimal] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  const { refetch } = React.useContext(DataContext)
 
   React.useEffect(() => {
     if (isOpen) {
@@ -43,17 +47,22 @@ export default function PlayerModal({ isOpen, onClose, onSubmit, initialValues }
     }
   }, [isOpen])
 
+  const handleSubmit = async e => {
+    e.preventDefault()
+    const values = { name, animal }
+
+    setIsLoading(true)
+    if (!animal) alert('Please select an animal.')
+    else if (initialValues) await axios.post(`/api/players/${initialValues._id}`, values)
+    else await axios.post('/api/players', values)
+    await refetch()
+    setIsLoading(false)
+    onClose()
+  }
+
   return (
     <>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        onSubmit={e => {
-          e.preventDefault()
-          if (!animal) alert('Please select an animal.')
-          else onSubmit({ name, animal })
-        }}
-      >
+      <Modal isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} isLoading={isLoading}>
         <div className="input-container">
           <Input required value={name} onChange={setName} placeholder="Name" />
         </div>
@@ -120,7 +129,6 @@ export default function PlayerModal({ isOpen, onClose, onSubmit, initialValues }
 PlayerModal.propTypes = {
   isOpen: bool,
   onClose: func.isRequired,
-  onSubmit: func,
   initialValues: shape({
     name: string,
     animal: string

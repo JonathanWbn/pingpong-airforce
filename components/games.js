@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import { DataContext } from '../pages/index.js'
 import Card from './card.js'
 import GameModal from './game-modal'
@@ -8,7 +6,7 @@ import List from './list.js'
 export default function Games() {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [game, setGame] = React.useState(null)
-  const { games, players, refetch } = React.useContext(DataContext)
+  const { games, players } = React.useContext(DataContext)
 
   const getPlayer = id => players.find(player => player._id === id)
 
@@ -19,13 +17,6 @@ export default function Games() {
         onClose={() => {
           setModalIsOpen(false)
           setGame(null)
-        }}
-        onSubmit={async values => {
-          if (game) await axios.post(`/api/games/${game._id}`, values)
-          else await axios.post('/api/games', values)
-          setModalIsOpen(false)
-          setGame(null)
-          refetch()
         }}
         initialValues={game}
       />
