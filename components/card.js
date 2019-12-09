@@ -33,7 +33,7 @@ export default function Card({ heading, children, footer, actionButton }) {
           justify-content: space-between;
         }
         .content {
-          overflow-y: scroll;
+          overflow-y: auto;
         }
         .footer {
           border-top: var(--dividing-border);
