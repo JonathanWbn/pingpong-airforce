@@ -8,6 +8,11 @@ export default function Players() {
   const [player, setPlayer] = React.useState(null)
   const { games, players } = React.useContext(DataContext)
 
+  const getGamesCount = player =>
+    games.reduce((acc, game) => {
+      if (game.player1 === player || game.player2 === player) return acc + 1
+      return acc
+    }, 0)
   const getGamesWon = player =>
     games.reduce((acc, game) => {
       if (game.player1 === player && game.score.player1 > game.score.player2) return acc + 1
@@ -41,6 +46,7 @@ export default function Players() {
         }}
       >
         <div className="descriptions">
+          <div className="descriptor">G</div>
           <div className="descriptor">P</div>
           <div className="descriptor">W</div>
           <div className="descriptor">L</div>
@@ -56,6 +62,7 @@ export default function Players() {
                   {player.name}
                 </div>
                 <div className="scores">
+                  <div className="score">{getGamesCount(player._id)}</div>
                   <div className="score">{getPoints(player._id)}</div>
                   <div className="score">{getGamesWon(player._id)}</div>
                   <div className="score">{getGamesLost(player._id)}</div>

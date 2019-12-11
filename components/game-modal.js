@@ -56,7 +56,7 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
             <Input
               required
               value={score.player1}
-              onChange={value => setScore({ ...score, player1: +value })}
+              onChange={value => setScore({ ...score, player1: value === '' ? '' : +value })}
               placeholder="Score"
               type="number"
             />
@@ -77,7 +77,7 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
             <Input
               required
               value={score.player2}
-              onChange={value => setScore({ ...score, player2: +value })}
+              onChange={value => setScore({ ...score, player2: value === '' ? '' : +value })}
               placeholder="Score"
               type="number"
             />
