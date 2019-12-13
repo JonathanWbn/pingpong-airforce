@@ -9,7 +9,7 @@ export async function connectToDatabase() {
 
   if (cachedDb) return cachedDb
 
-  const client = await MongoClient.connect(mongoURL, { useNewUrlParser: true })
+  const client = await MongoClient.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
 
   const db = await client.db(url.parse(mongoURL).pathname.substr(1))
   cachedDb = db // eslint-disable-line require-atomic-updates
