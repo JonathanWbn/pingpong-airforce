@@ -40,7 +40,7 @@ export default function Card({ heading, children, footer, actionButton }) {
           background-color: var(--footer-background);
           padding: 20px;
           font-weight: 300;
-          text-align: center;
+          text-align: end;
           font-size: var(--text-font-size);
         }
 
