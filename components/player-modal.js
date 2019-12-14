@@ -78,6 +78,16 @@ export default function PlayerModal({ isOpen, onClose, initialValues }) {
             />
           ))}
         </div>
+        <div className="icons-credit">
+          Icons made by{' '}
+          <a href="https://www.flaticon.com/authors/freepik" title="Freepik" target="_blank" rel="noopener noreferrer">
+            Freepik
+          </a>{' '}
+          from{' '}
+          <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noopener noreferrer">
+            flaticon.com
+          </a>
+        </div>
       </Modal>
       <style jsx>{`
         .input-container {
@@ -107,6 +117,17 @@ export default function PlayerModal({ isOpen, onClose, initialValues }) {
           height: 40px;
           width: 40px;
           border: 2px solid var(--button-color);
+        }
+        .icons-credit {
+          text-align: center;
+          font-weight: 400;
+          color: var(--dark-grey);
+          padding: 0 20px;
+          margin-top: 10px;
+        }
+        .icons-credit a {
+          text-decoration: none;
+          color: var(--black);
         }
 
         @media (min-width: ${breakpoint}) {
