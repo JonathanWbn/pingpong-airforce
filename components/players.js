@@ -1,34 +1,21 @@
+import classnames from 'classnames'
+
+import { addEloRatings } from '../elo.ts'
 import { DataContext, breakpoint } from '../pages/index.js'
 import Card from './card.js'
 import List from './list'
 import PlayerModal from './player-modal'
 
+function haveSameRank(p1, p2) {
+  return p1 && p2 && p1.eloRating === p2.eloRating
+}
+
 export default function Players() {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
-  const [showScoring, setShowScoring] = React.useState(false)
   const { games, players } = React.useContext(DataContext)
 
-  const getGamesCount = player =>
-    games.reduce((acc, game) => {
-      if (game.player1 === player || game.player2 === player) return acc + 1
-      return acc
-    }, 0)
-  const getGamesWon = player =>
-    games.reduce((acc, game) => {
-      if (game.player1 === player && game.score.player1 > game.score.player2) return acc + 1
-      if (game.player2 === player && game.score.player2 > game.score.player1) return acc + 1
-      return acc
-    }, 0)
-  const getGamesLost = player =>
-    games.reduce((acc, game) => {
-      if (game.player1 === player && game.score.player1 < game.score.player2) return acc + 1
-      if (game.player2 === player && game.score.player2 < game.score.player1) return acc + 1
-      return acc
-    }, 0)
-  const getPoints = player => getGamesWon(player) - getGamesLost(player)
-  const haveSameRank = (p1, p2) =>
-    p1 && p2 && getPoints(p1._id) === getPoints(p2._id) && getGamesCount(p1._id) === getGamesCount(p2._id)
+  addEloRatings(games, players)
 
   return (
     <>
@@ -44,16 +31,14 @@ export default function Players() {
         heading="Players"
         footer={
           <div className="footer">
-            <div className="players-count">{players.length} players</div>
-            <button onClick={() => setShowScoring(v => !v)}>{showScoring ? 'Hide' : 'Show'} scoring</button>
-            {showScoring && (
-              <ul className="rules">
-                <li>Players are ranked by points (if even by games played).</li>
-                <li>
-                  <b>+1 point</b> for a win; <b>-1 point</b> for a loss; <b>0 points</b> for a draw.
-                </li>
-              </ul>
-            )}
+            <div>
+              Using the{' '}
+              <a href="https://en.wikipedia.org/wiki/Elo_rating_system" target="_blank" rel="noopener noreferrer">
+                Elo rating system
+              </a>
+              .
+            </div>
+            <div>{players.length} players</div>
           </div>
         }
         actionButton={{
@@ -62,14 +47,16 @@ export default function Players() {
         }}
       >
         <div className="descriptions">
-          <div className="descriptor">G</div>
-          <div className="descriptor">P</div>
-          <div className="descriptor">W</div>
-          <div className="descriptor">L</div>
+          <div className="descriptor" title="Elo rating">
+            Rating
+          </div>
+          <div className="descriptor" title="2 weeks trend">
+            + / -
+          </div>
         </div>
         <List>
           {players
-            .sort((p1, p2) => getPoints(p2._id) - getPoints(p1._id) || getGamesCount(p2._id) - getGamesCount(p1._id))
+            .sort((p1, p2) => p2.eloRating - p1.eloRating)
             .map((player, i, arr) => (
               <li key={player._id} onClick={() => setPlayer(player)}>
                 <div className="player">
@@ -78,10 +65,19 @@ export default function Players() {
                   {player.name}
                 </div>
                 <div className="scores">
-                  <div className="score">{getGamesCount(player._id)}</div>
-                  <div className="score">{getPoints(player._id)}</div>
-                  <div className="score">{getGamesWon(player._id)}</div>
-                  <div className="score">{getGamesLost(player._id)}</div>
+                  <div className="score" style={{ fontWeight: 500 }}>
+                    {player.eloRating}
+                  </div>
+                  <div
+                    className={classnames(
+                      'score',
+                      player.eloTrend < 0 && 'negative',
+                      player.eloTrend > 0 && 'positive'
+                    )}
+                  >
+                    {player.eloTrend > 0 && '+'}
+                    {player.eloTrend}
+                  </div>
                 </div>
               </li>
             ))}
@@ -97,7 +93,7 @@ export default function Players() {
         }
         .score,
         .descriptor {
-          width: 30px;
+          width: 60px;
         }
         .descriptor {
           font-size: var(--list-font-size);
@@ -121,6 +117,12 @@ export default function Players() {
         .scores {
           display: flex;
         }
+        .score.positive {
+          color: #006c00;
+        }
+        .score.negative {
+          color: #c00;
+        }
         .score {
           text-align: center;
         }
@@ -128,21 +130,16 @@ export default function Players() {
           border-right: var(--dividing-border);
         }
         .footer {
-          position: relative;
           display: flex;
-          flex-direction: column;
-          align-items: flex-start;
+          justify-content: space-between;
         }
-        .footer button {
-          padding: 0;
-          font-size: var(--text-font-size);
+        .footer a {
+          text-decoration: none;
+          color: inherit;
           font-weight: 500;
-          background-color: transparent;
         }
-        .players-count {
-          position: absolute;
-          top: 0;
-          right: 0;
+        .footer a:hover {
+          text-decoration: underline;
         }
         .rules {
           margin: 10px 0 0 0;
@@ -158,7 +155,7 @@ export default function Players() {
         @media (min-width: ${breakpoint}) {
           .score,
           .descriptor {
-            width: 40px;
+            width: 70px;
           }
         }
       `}</style>
