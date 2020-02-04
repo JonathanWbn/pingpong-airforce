@@ -15,8 +15,6 @@ export default function Players() {
   const [player, setPlayer] = React.useState(null)
   const { games, players } = React.useContext(DataContext)
 
-  addEloRatings(games, players)
-
   return (
     <>
       <PlayerModal
@@ -50,12 +48,12 @@ export default function Players() {
           <div className="descriptor" title="Elo rating">
             Rating
           </div>
-          <div className="descriptor" title="2 weeks trend">
+          <div className="descriptor" title="Last game">
             + / -
           </div>
         </div>
         <List>
-          {players
+          {addEloRatings(games, players)
             .sort((p1, p2) => p2.eloRating - p1.eloRating)
             .map((player, i, arr) => (
               <li key={player._id} onClick={() => setPlayer(player)}>
@@ -71,12 +69,12 @@ export default function Players() {
                   <div
                     className={classnames(
                       'score',
-                      player.eloTrend < 0 && 'negative',
-                      player.eloTrend > 0 && 'positive'
+                      player.lastGameTrend < 0 && 'negative',
+                      player.lastGameTrend > 0 && 'positive'
                     )}
                   >
-                    {player.eloTrend > 0 && '+'}
-                    {player.eloTrend}
+                    {player.lastGameTrend > 0 && '+'}
+                    {player.lastGameTrend}
                   </div>
                 </div>
               </li>

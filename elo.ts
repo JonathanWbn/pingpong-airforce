@@ -9,9 +9,9 @@ function getNewRating(ratingP1: number, ratingP2: number, result: 0 | 0.5 | 1) {
 }
 
 export function addEloRatings(games, players) {
-  // initialize elo ratings
   players.forEach(player => {
     player.eloRating = 1500
+    player.lastGameTrend = 0
   })
 
   games
@@ -19,30 +19,23 @@ export function addEloRatings(games, players) {
     .forEach(game => {
       const p1 = players.find(p => p._id === game.player1)
       const p2 = players.find(p => p._id === game.player2)
-      const rankingP1 = p1.eloRating
-      const rankingP2 = p2.eloRating
-
-      const twoWeeks = 1000 * 60 * 60 * 24 * 14
-      const gameIsInLastTwoWeeks = game.createdAt > Date.now() - twoWeeks
-      if (gameIsInLastTwoWeeks) {
-        if (!p1.eloRatingTwoWeeksAgo) p1.eloRatingTwoWeeksAgo = rankingP1
-        if (!p2.eloRatingTwoWeeksAgo) p2.eloRatingTwoWeeksAgo = rankingP2
-      }
+      const ratingP1 = p1.eloRating
+      const ratingP2 = p2.eloRating
 
       p1.eloRating = getNewRating(
-        rankingP1,
-        rankingP2,
+        ratingP1,
+        ratingP2,
         game.score.player1 > game.score.player2 ? 1 : game.score.player1 === game.score.player2 ? 0.5 : 0
       )
       p2.eloRating = getNewRating(
-        rankingP2,
-        rankingP1,
+        ratingP2,
+        ratingP1,
         game.score.player2 > game.score.player1 ? 1 : game.score.player2 === game.score.player1 ? 0.5 : 0
       )
+
+      p1.lastGameTrend = p1.eloRating - ratingP1
+      p2.lastGameTrend = p2.eloRating - ratingP2
     })
 
-  players.forEach(player => {
-    if (!player.eloRatingTwoWeeksAgo) player.eloRatingTwoWeeksAgo = 1500
-    player.eloTrend = player.eloRating - player.eloRatingTwoWeeksAgo
-  })
+  return players
 }
