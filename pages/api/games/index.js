@@ -3,8 +3,7 @@ import axios from 'axios'
 import { connectToDatabase } from '../../../db'
 
 function formatAnimal(str) {
-  const animal = str.split('-')[1]
-  return animal.slice(0, 1).toUpperCase() + animal.slice(1)
+  return str.split('-')[1]
 }
 
 export default async function handle(req, res) {
