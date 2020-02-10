@@ -1,9 +1,17 @@
+import axios from 'axios'
+
 import { connectToDatabase } from '../../../db'
+
+function formatAnimal(str) {
+  const animal = str.split('-')[1]
+  return animal.slice(0, 1).toUpperCase() + animal.slice(1)
+}
 
 export default async function handle(req, res) {
   const { body } = req
   const db = await connectToDatabase()
   const gamesCollection = await db.collection('games')
+  const playersCollection = await db.collection('players')
 
   switch (req.method) {
     case 'GET': {
@@ -16,6 +24,8 @@ export default async function handle(req, res) {
       break
     }
     case 'POST': {
+      const players = await playersCollection.find({}).toArray()
+
       const game = await gamesCollection.insertOne({
         player1: body.player1,
         player2: body.player2,
@@ -25,6 +35,26 @@ export default async function handle(req, res) {
         },
         createdAt: Date.now()
       })
+
+      const player1 = players.find(player => player._id.toString() === body.player1)
+      const player2 = players.find(player => player._id.toString() === body.player2)
+      const winner =
+        body.score.player1 > body.score.player2 ? player1 : body.score.player2 > body.score.player1 ? player2 : null
+      const loser =
+        body.score.player1 < body.score.player2 ? player1 : body.score.player2 < body.score.player1 ? player2 : null
+
+      axios.post(
+        'https://api.cleverpush.com/notification/send',
+        {
+          channelId: 'LgzMJN77GRK5eXCx8',
+          title: winner
+            ? `The ${formatAnimal(winner.animal)} just beat the ${formatAnimal(loser.animal)}.`
+            : `${player1.name} and ${player2.name} just played to a draw. Lame.`,
+          url: 'https://pingpong.airforce',
+          text: `${player1.name} ${body.score.player1} : ${body.score.player2} ${player2.name}`
+        },
+        { headers: { Authorization: process.env.CLEVERPUSH_SECRET } }
+      )
 
       res.status(201).send(game)
       break
