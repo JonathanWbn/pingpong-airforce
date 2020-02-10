@@ -27,6 +27,7 @@ export default function App() {
       <Head>
         <title>Ping Pong Airforce</title>
         <link rel="shortcut icon" type="image/png" href="/favicon.png"></link>
+        <script src="https://static.cleverpush.com/channel/loader/LgzMJN77GRK5eXCx8.js" async></script>
       </Head>
       <DataContext.Provider value={{ games, players, refetch: fetchData }}>
         <div className="app">
