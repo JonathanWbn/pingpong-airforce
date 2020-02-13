@@ -25,7 +25,7 @@ export default function App() {
   return (
     <>
       <Head>
-        <title>Ping Pong Airforce</title>
+        <title>Ping Pong | ePages</title>
         <link rel="shortcut icon" type="image/png" href="/favicon.png"></link>
         <script src="https://static.cleverpush.com/channel/loader/LgzMJN77GRK5eXCx8.js" async></script>
       </Head>
@@ -49,7 +49,6 @@ export default function App() {
             </div>
           )}
           <h4>
-            made with 🥤 by{' '}
             <a href="https://twitter.com/jonathan_wbn" target="_blank" rel="noopener noreferrer">
               @jonathan_wbn
             </a>{' '}
