@@ -43,10 +43,12 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
     }
     await refetch()
     setIsLoading(false)
+
     onClose()
   }
 
   const handleDelete = async () => {
+    setIsLoading(true)
     await axios.delete(`/api/games/${initialValues._id}`)
     await refetch()
     setIsLoading(false)
