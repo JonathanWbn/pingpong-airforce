@@ -42,18 +42,22 @@ export default async function handle(req, res) {
       const loser =
         body.score.player1 < body.score.player2 ? player1 : body.score.player2 < body.score.player1 ? player2 : null
 
-      axios.post(
-        'https://api.cleverpush.com/notification/send',
-        {
-          channelId: 'LgzMJN77GRK5eXCx8',
-          title: winner
-            ? `The ${formatAnimal(winner.animal)} just beat the ${formatAnimal(loser.animal)}.`
-            : `${player1.name} and ${player2.name} just played to a draw. Lame.`,
-          url: 'https://pingpong.airforce',
-          text: `${player1.name} ${body.score.player1} : ${body.score.player2} ${player2.name}`
-        },
-        { headers: { Authorization: process.env.CLEVERPUSH_SECRET } }
-      )
+      try {
+        axios.post(
+          'https://api.cleverpush.com/notification/send',
+          {
+            channelId: 'LgzMJN77GRK5eXCx8',
+            title: winner
+              ? `The ${formatAnimal(winner.animal)} just beat the ${formatAnimal(loser.animal)}.`
+              : `${player1.name} and ${player2.name} just played to a draw. Lame.`,
+            url: 'https://pingpong.airforce',
+            text: `${player1.name} ${body.score.player1} : ${body.score.player2} ${player2.name}`
+          },
+          { headers: { Authorization: process.env.CLEVERPUSH_SECRET } }
+        )
+      } catch (e) {
+        // ignore
+      }
 
       res.status(201).send(game)
       break
