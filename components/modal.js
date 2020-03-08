@@ -1,11 +1,14 @@
 import classnames from 'classnames'
 import { bool, func, node } from 'prop-types'
 
-export default function Modal({ isOpen, onClose, onSubmit, children, isLoading }) {
+export default function Modal({ isOpen, onClose, onSubmit, onDelete, children, isLoading }) {
   const modalRef = React.useRef()
   const [fullyClosed, setFullyClosed] = React.useState(true)
+  const [isDeleting, setIsDeleting] = React.useState(false)
 
   React.useEffect(() => {
+    setIsDeleting(false)
+
     if (isOpen) setFullyClosed(false)
     else setTimeout(() => setFullyClosed(true), 350)
   }, [isOpen])
@@ -31,12 +34,30 @@ export default function Modal({ isOpen, onClose, onSubmit, children, isLoading }
         <form className="modal" ref={modalRef} onSubmit={onSubmit}>
           <div className="modal-content">{children}</div>
           <div className="modal-footer">
-            <button onClick={onClose} type="button">
-              Cancel
-            </button>
-            <button disabled={buttonIsDisabled} type="submit" className={classnames(buttonIsDisabled && 'loading')}>
-              {buttonIsDisabled ? '. . .' : 'Submit'}
-            </button>
+            {isDeleting ? (
+              <>
+                <button onClick={() => setTimeout(() => setIsDeleting(false), 1)} type="button">
+                  Cancel deletion
+                </button>
+                <button onClick={onDelete} type="button" className="delete">
+                  Confirm deletion
+                </button>
+              </>
+            ) : (
+              <>
+                {onDelete && (
+                  <button onClick={() => setTimeout(() => setIsDeleting(true), 1)} type="button" className="delete">
+                    Delete
+                  </button>
+                )}
+                <button onClick={onClose} type="button">
+                  Cancel
+                </button>
+                <button disabled={buttonIsDisabled} type="submit" className={classnames(buttonIsDisabled && 'loading')}>
+                  {buttonIsDisabled ? '. . .' : 'Submit'}
+                </button>
+              </>
+            )}
           </div>
         </form>
       </div>
@@ -75,10 +96,11 @@ export default function Modal({ isOpen, onClose, onSubmit, children, isLoading }
           text-align: center;
         }
         .modal-footer {
+          display: flex;
           border-top: var(--dividing-border);
         }
         button {
-          width: 50%;
+          flex-grow: 1;
           background-color: var(--background);
           font-size: var(--text-font-size);
           text-transform: uppercase;
@@ -90,7 +112,10 @@ export default function Modal({ isOpen, onClose, onSubmit, children, isLoading }
           color: var(--black);
           background-color: var(--footer-background);
         }
-        button:first-child {
+        button.delete {
+          color: var(--red);
+        }
+        button:not(:last-child) {
           border-right: var(--dividing-border);
         }
         button.loading {
@@ -117,6 +142,7 @@ export default function Modal({ isOpen, onClose, onSubmit, children, isLoading }
 Modal.propTypes = {
   isOpen: bool,
   onClose: func.isRequired,
+  onDelete: func,
   onSubmit: func,
   children: node,
   isLoading: bool

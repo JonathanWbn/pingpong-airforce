@@ -27,11 +27,27 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
     e.preventDefault()
     const values = { player1, player2, score }
 
+    if (!player1 || !player2) {
+      alert('Please select two players.')
+      return
+    } else if (player1 === player2) {
+      alert('Please select different players.')
+      return
+    }
+
     setIsLoading(true)
-    if (!player1 || !player2) alert('Please select two players.')
-    else if (player1 === player2) alert('Please select different players.')
-    else if (initialValues) await axios.post(`/api/games/${initialValues._id}`, values)
-    else await axios.post('/api/games', values)
+    if (initialValues) {
+      await axios.post(`/api/games/${initialValues._id}`, values)
+    } else {
+      await axios.post('/api/games', values)
+    }
+    await refetch()
+    setIsLoading(false)
+    onClose()
+  }
+
+  const handleDelete = async () => {
+    await axios.delete(`/api/games/${initialValues._id}`)
     await refetch()
     setIsLoading(false)
     onClose()
@@ -39,7 +55,13 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} isLoading={isLoading}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={handleSubmit}
+        isLoading={isLoading}
+        onDelete={initialValues ? handleDelete : undefined}
+      >
         <div className="container">
           <div className="player-column">
             <label className={classnames(score.player1 > score.player2 && 'winning')}>

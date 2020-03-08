@@ -26,5 +26,11 @@ export default async function handle(req, res) {
       res.status(201).send(game)
       break
     }
+    case 'DELETE': {
+      await gamesCollection.deleteOne({ _id: new ObjectID(query.id) })
+
+      res.status(201).send('🎉')
+      break
+    }
   }
 }

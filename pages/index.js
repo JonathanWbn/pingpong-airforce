@@ -141,6 +141,7 @@ export default function App() {
           --grey: #9f9f9f;
           --dark-grey: #666;
           --black: #000;
+          --red: #e00;
 
           --body-background: #fafafa;
           --background: #fff;
