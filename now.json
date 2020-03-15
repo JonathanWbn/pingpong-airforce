@@ -1,7 +1,9 @@
 {
   "version": 2,
-  "env": {
-    "MONGO_URL": "@mongodb-uri-pingpong",
-    "CLEVERPUSH_SECRET": "@cleverpush-secret"
+  "build": {
+    "env": {
+      "MONGO_URL": "@mongodb-uri-pingpong",
+      "CLEVERPUSH_SECRET": "@cleverpush-secret"
+    }
   }
 }
