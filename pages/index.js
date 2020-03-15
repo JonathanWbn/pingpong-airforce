@@ -1,26 +1,14 @@
-import axios from 'axios'
 import Head from 'next/head'
 
 import Games from '../components/games'
 import Players from '../components/players'
+import useAllData from '../hooks/useAllData'
 
 export const breakpoint = '900px'
 export const DataContext = React.createContext({})
 
 export default function App() {
-  const [players, setPlayers] = React.useState([])
-  const [games, setGames] = React.useState([])
-  const [showLoadingIndicator, setShowLoadingInidicator] = React.useState(true)
-
-  const fetchData = () =>
-    Promise.all([
-      axios.get('/api/players').then(({ data }) => setPlayers(data)),
-      axios.get('/api/games').then(({ data }) => setGames(data))
-    ])
-
-  React.useEffect(() => {
-    fetchData().then(() => setShowLoadingInidicator(false))
-  }, [])
+  const { games, players, isLoading, refetch } = useAllData()
 
   return (
     <>
@@ -29,7 +17,7 @@ export default function App() {
         <link rel="shortcut icon" type="image/png" href="/favicon.png"></link>
         <script src="https://static.cleverpush.com/channel/loader/LgzMJN77GRK5eXCx8.js" async></script>
       </Head>
-      <DataContext.Provider value={{ games, players, refetch: fetchData }}>
+      <DataContext.Provider value={{ games, players, refetch }}>
         <div className="app">
           <h4>
             the <span className="soft">un</span>official scoreboard of the ping pong table at{' '}
@@ -38,7 +26,7 @@ export default function App() {
             </a>{' '}
             headquarters
           </h4>
-          {showLoadingIndicator ? (
+          {isLoading ? (
             <div className="loading">
               <img src="/loading.gif" />
             </div>
