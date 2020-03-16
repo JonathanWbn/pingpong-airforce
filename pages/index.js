@@ -18,44 +18,34 @@ export default function App() {
         <script src="https://static.cleverpush.com/channel/loader/LgzMJN77GRK5eXCx8.js" async></script>
       </Head>
       <DataContext.Provider value={{ games, players, refetch }}>
-        <div className="app">
-          <h4>
-            the <span className="soft">un</span>official scoreboard of the ping pong table at{' '}
-            <a href="https://epages.com/" target="_blank" rel="noopener noreferrer">
-              epages
-            </a>{' '}
-            headquarters
-          </h4>
-          {isLoading ? (
-            <div className="loading">
-              <img src="/loading.gif" />
-            </div>
-          ) : (
-            <div className="cards">
-              <Games />
-              <Players />
-            </div>
-          )}
-          <h4>
-            <a href="https://twitter.com/jonathan_wbn" target="_blank" rel="noopener noreferrer">
-              @jonathan_wbn
-            </a>{' '}
-            |{' '}
-            <a href="https://github.com/JonathanWbn/pingpong-airforce" target="_blank" rel="noopener noreferrer">
-              source
-            </a>
-          </h4>
-        </div>
+        <h4>
+          the <span className="soft">un</span>official scoreboard of the ping pong table at{' '}
+          <a href="https://epages.com/" target="_blank" rel="noopener noreferrer">
+            epages
+          </a>{' '}
+          headquarters
+        </h4>
+        {isLoading ? (
+          <div className="loading">
+            <img src="/loading.gif" />
+          </div>
+        ) : (
+          <div className="cards">
+            <Games />
+            <Players />
+          </div>
+        )}
+        <h4>
+          <a href="https://twitter.com/jonathan_wbn" target="_blank" rel="noopener noreferrer">
+            @jonathan_wbn
+          </a>{' '}
+          |{' '}
+          <a href="https://github.com/JonathanWbn/pingpong-airforce" target="_blank" rel="noopener noreferrer">
+            source
+          </a>
+        </h4>
       </DataContext.Provider>
       <style jsx>{`
-        .app {
-          min-height: 100vh;
-          width: 100vw;
-          background-color: var(--body-background);
-          padding: 16px;
-          display: flex;
-          flex-direction: column;
-        }
         .loading {
           flex-grow: 1;
           display: flex;

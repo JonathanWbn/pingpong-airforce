@@ -22,6 +22,14 @@ button {
 h1 {
   font-weight: 500;
 }
+.app {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: var(--body-background);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
 :root {
   --white: #fff;
   --grey: #9f9f9f;

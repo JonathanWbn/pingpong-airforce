@@ -1,6 +1,8 @@
 import classnames from 'classnames'
+import { Flipped, Flipper } from 'react-flip-toolkit'
 
 import { addEloRatings } from '../elo.ts'
+import useInterval from '../hooks/useInterval'
 import { DataContext, breakpoint } from '../pages/index.js'
 import Card from './card.js'
 import List from './list'
@@ -14,6 +16,19 @@ export default function Players() {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
   const { games, players } = React.useContext(DataContext)
+  const [gameIndex, setGameIndex] = React.useState(games.length)
+  const [isAutoplaying, setIsAutoplaying] = React.useState(false)
+  const incrementIndex = React.useCallback(() => {
+    setGameIndex(v => {
+      if (v === games.length) {
+        setIsAutoplaying(false)
+        return v
+      } else return v + 1
+    })
+  })
+  useInterval(incrementIndex, isAutoplaying ? 50 : null)
+
+  const ranking = addEloRatings(games.slice(0, gameIndex), players).sort((p1, p2) => p2.eloRating - p1.eloRating)
 
   return (
     <>
@@ -44,6 +59,34 @@ export default function Players() {
           onClick: () => setModalIsOpen(true)
         }}
       >
+        <div className="controls">
+          <button
+            disabled={isAutoplaying}
+            onClick={() => {
+              if (gameIndex === games.length) setGameIndex(0)
+              setIsAutoplaying(true)
+            }}
+          >
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
+              <path d="M23 12l-22 12v-24l22 12zm-21 10.315l18.912-10.315-18.912-10.315v20.63z" />
+            </svg>
+          </button>
+          <button onClick={() => setIsAutoplaying(false)} disabled={!isAutoplaying}>
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
+              <path d="M10 24h-6v-24h6v24zm10 0h-6v-24h6v24zm-11-23h-4v22h4v-22zm10 0h-4v22h4v-22z" />
+            </svg>
+          </button>
+          <div className="range">
+            <input
+              type="range"
+              min="0"
+              max={games.length}
+              value={gameIndex}
+              onChange={e => setGameIndex(+e.target.value)}
+            ></input>
+            <span>{gameIndex} games</span>
+          </div>
+        </div>
         <div className="descriptions">
           <div className="descriptor" title="Elo rating">
             Rating
@@ -52,36 +95,63 @@ export default function Players() {
             + / -
           </div>
         </div>
-        <List>
-          {addEloRatings(games, players)
-            .sort((p1, p2) => p2.eloRating - p1.eloRating)
-            .map((player, i, arr) => (
-              <li key={player._id} onClick={() => setPlayer(player)}>
-                <div className="player">
-                  <strong>{haveSameRank(player, arr[i - 1]) ? '-' : `${i + 1}.`}</strong>
-                  <img src={`/animals/${player.animal}.png`} />
-                  {player.name}
-                </div>
-                <div className="scores">
-                  <div className="score" style={{ fontWeight: 500 }}>
-                    {player.eloRating}
+        <Flipper flipKey={ranking.map(({ _id }) => _id).join()}>
+          <List>
+            {ranking.map((player, i, arr) => (
+              <Flipped key={player._id} flipId={player._id}>
+                <li onClick={() => setPlayer(player)}>
+                  <div className="player">
+                    <strong>{haveSameRank(player, arr[i - 1]) ? '-' : `${i + 1}.`}</strong>
+                    <img src={`/animals/${player.animal}.png`} />
+                    {player.name}
                   </div>
-                  <div
-                    className={classnames(
-                      'score',
-                      player.lastGameTrend < 0 && 'negative',
-                      player.lastGameTrend > 0 && 'positive'
-                    )}
-                  >
-                    {player.lastGameTrend > 0 && '+'}
-                    {player.lastGameTrend}
+                  <div className="scores">
+                    <div className="score" style={{ fontWeight: 500 }}>
+                      {player.eloRating}
+                    </div>
+                    <div
+                      className={classnames(
+                        'score',
+                        player.lastGameTrend < 0 && 'negative',
+                        player.lastGameTrend > 0 && 'positive'
+                      )}
+                    >
+                      {player.lastGameTrend > 0 && '+'}
+                      {player.lastGameTrend}
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              </Flipped>
             ))}
-        </List>
+          </List>
+        </Flipper>
       </Card>
       <style jsx>{`
+        .controls {
+          display: flex;
+          align-items: center;
+          padding: 0 20px;
+          margin-bottom: 10px;
+        }
+        .controls > button {
+          background-color: transparent;
+        }
+        .controls > button:disabled > svg {
+          fill: #aeaeae;
+        }
+        .range {
+          flex-grow: 1;
+          display: flex;
+          align-items: center;
+        }
+        .range > input {
+          flex-grow: 1;
+          margin: 0 10px;
+        }
+        .range > span {
+          width: 100px;
+          text-align: right;
+        }
         .descriptions {
           height: 15px;
           display: flex;
