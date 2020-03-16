@@ -5,5 +5,9 @@
       "MONGO_URL": "@mongodb-uri-pingpong",
       "CLEVERPUSH_SECRET": "@cleverpush-secret"
     }
+  },
+  "env": {
+    "MONGO_URL": "@mongodb-uri-pingpong",
+    "CLEVERPUSH_SECRET": "@cleverpush-secret"
   }
 }
