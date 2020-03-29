@@ -3,7 +3,7 @@ import { func } from 'prop-types'
 export default function Input({ onChange, ...props }) {
   return (
     <>
-      <input onChange={e => onChange(e.target.value)} {...props} />
+      <input onChange={(e) => onChange(e.target.value)} {...props} />
       <style jsx>{`
         input {
           outline: none;
@@ -28,5 +28,5 @@ export default function Input({ onChange, ...props }) {
 }
 
 Input.propTypes = {
-  onChange: func.isRequired
+  onChange: func.isRequired,
 }

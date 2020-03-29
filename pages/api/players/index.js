@@ -16,7 +16,7 @@ export default async function handle(req, res) {
     case 'POST': {
       const player = await playersCollection.insertOne({
         name: body.name,
-        animal: body.animal
+        animal: body.animal,
       })
 
       res.status(201).send(player)

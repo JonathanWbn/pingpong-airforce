@@ -5,6 +5,11 @@
     "node": true,
     "browser": true
   },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 9

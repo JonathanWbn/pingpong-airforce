@@ -3,7 +3,7 @@ import { func } from 'prop-types'
 export default function Select({ onChange, ...props }) {
   return (
     <>
-      <select onChange={e => onChange(e.target.value)} {...props} />
+      <select onChange={(e) => onChange(e.target.value)} {...props} />
       <style jsx>{`
         select {
           background-color: var(--background);
@@ -29,5 +29,5 @@ export default function Select({ onChange, ...props }) {
 }
 
 Select.propTypes = {
-  onChange: func.isRequired
+  onChange: func.isRequired,
 }

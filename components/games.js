@@ -10,7 +10,7 @@ export default function Games() {
   const [game, setGame] = React.useState(null)
   const { games, players } = React.useContext(DataContext)
 
-  const getPlayer = id => players.find(player => player._id === id)
+  const getPlayer = (id) => players.find((player) => player._id === id)
 
   return (
     <>
@@ -27,15 +27,15 @@ export default function Games() {
         footer={`${games.length} games`}
         actionButton={{
           label: 'add game',
-          onClick: () => setModalIsOpen(true)
+          onClick: () => setModalIsOpen(true),
         }}
       >
         <List>
           {games
             .sort((a, b) => b.createdAt - a.createdAt)
             .filter(({ player1, player2 }) => getPlayer(player1) && getPlayer(player2))
-            .map(game => ({ ...game, player1Obj: getPlayer(game.player1), player2Obj: getPlayer(game.player2) }))
-            .map(game => (
+            .map((game) => ({ ...game, player1Obj: getPlayer(game.player1), player2Obj: getPlayer(game.player2) }))
+            .map((game) => (
               <li key={game._id} onClick={() => setGame(game)}>
                 <div className="player player-1">
                   <img src={`/animals/${game.player1Obj.animal}.png`} />

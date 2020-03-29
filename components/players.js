@@ -19,7 +19,7 @@ export default function Players() {
   const [gameIndex, setGameIndex] = React.useState(games.length)
   const [isAutoplaying, setIsAutoplaying] = React.useState(false)
   const incrementIndex = React.useCallback(() => {
-    setGameIndex(v => {
+    setGameIndex((v) => {
       if (v === games.length) {
         setIsAutoplaying(false)
         return v
@@ -56,7 +56,7 @@ export default function Players() {
         }
         actionButton={{
           label: 'add player',
-          onClick: () => setModalIsOpen(true)
+          onClick: () => setModalIsOpen(true),
         }}
       >
         <div className="controls">
@@ -82,7 +82,7 @@ export default function Players() {
               min="0"
               max={games.length}
               value={gameIndex}
-              onChange={e => setGameIndex(+e.target.value)}
+              onChange={(e) => setGameIndex(+e.target.value)}
             ></input>
             <span>{gameIndex} games</span>
           </div>

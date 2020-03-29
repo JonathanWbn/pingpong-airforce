@@ -61,6 +61,6 @@ Card.propTypes = {
   footer: node,
   actionButton: shape({
     onClick: func,
-    label: node
-  }).isRequired
+    label: node,
+  }).isRequired,
 }
