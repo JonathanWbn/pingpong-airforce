@@ -17,9 +17,9 @@ export default async function handle(req, res) {
             player2: body.player2,
             score: {
               player1: body.score.player1,
-              player2: body.score.player2
-            }
-          }
+              player2: body.score.player2,
+            },
+          },
         }
       )
 

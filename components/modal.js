@@ -145,5 +145,5 @@ Modal.propTypes = {
   onDelete: func,
   onSubmit: func,
   children: node,
-  isLoading: bool
+  isLoading: bool,
 }

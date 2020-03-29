@@ -36,5 +36,5 @@ export default function Button({ onClick, children }) {
 
 Button.propTypes = {
   onClick: func,
-  children: node
+  children: node,
 }

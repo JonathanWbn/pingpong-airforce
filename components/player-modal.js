@@ -30,7 +30,7 @@ const animals = [
   { name: 'Guineapig', id: '021-guineapig' },
   { name: 'Squirrel', id: '022-squirrel' },
   { name: 'Lemur', id: '023-lemur' },
-  { name: 'Penguin', id: '047-penguin' }
+  { name: 'Penguin', id: '047-penguin' },
 ]
 
 export default function PlayerModal({ isOpen, onClose, initialValues }) {
@@ -47,7 +47,7 @@ export default function PlayerModal({ isOpen, onClose, initialValues }) {
     }
   }, [isOpen])
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const values = { name, animal }
 
@@ -152,6 +152,6 @@ PlayerModal.propTypes = {
   onClose: func.isRequired,
   initialValues: shape({
     name: string,
-    animal: string
-  })
+    animal: string,
+  }),
 }

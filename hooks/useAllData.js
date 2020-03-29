@@ -9,7 +9,7 @@ export default function useAllData() {
   const fetchData = () =>
     Promise.all([
       axios.get('/api/players').then(({ data }) => setPlayers(data)),
-      axios.get('/api/games').then(({ data }) => setGames(data))
+      axios.get('/api/games').then(({ data }) => setGames(data)),
     ])
 
   React.useEffect(() => {

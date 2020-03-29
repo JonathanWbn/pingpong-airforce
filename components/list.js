@@ -40,5 +40,5 @@ export default function List({ children }) {
 }
 
 List.propTypes = {
-  children: node
+  children: node,
 }

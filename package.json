@@ -3,23 +3,25 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint . && prettier -c \"**/*.{js,json,md}\"",
+    "fixlint": "eslint . --fix && prettier --write \"**/*.{js,json,md}\""
   },
   "dependencies": {
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "moment": "^2.24.0",
-    "mongodb": "^3.5.2",
-    "next": "9.3.0",
+    "mongodb": "^3.5.5",
+    "next": "9.3.2",
     "prop-types": "^15.7.2",
-    "react": "16.13.0",
-    "react-dom": "16.13.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
     "react-flip-toolkit": "^7.0.9",
     "url": "^0.11.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-plugin-react": "^7.18.0",
-    "prettier": "^1.19.1"
+    "eslint-plugin-react": "^7.19.0",
+    "prettier": "^2.0.2"
   }
 }

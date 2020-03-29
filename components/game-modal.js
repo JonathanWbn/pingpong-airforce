@@ -23,7 +23,7 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
     }
   }, [isOpen])
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const values = { player1, player2, score }
 
@@ -70,7 +70,7 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
               <span>Player 1</span>
               <Select value={player1} onChange={setPlayer1}>
                 <option value="">---</option>
-                {players.map(player => (
+                {players.map((player) => (
                   <option key={player.name} value={player._id}>
                     {player.name}
                   </option>
@@ -80,7 +80,7 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
             <Input
               required
               value={score.player1}
-              onChange={value => setScore({ ...score, player1: value === '' ? '' : +value })}
+              onChange={(value) => setScore({ ...score, player1: value === '' ? '' : +value })}
               placeholder="Sets"
               type="number"
             />
@@ -91,7 +91,7 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
               <span>Player 2</span>
               <Select value={player2} onChange={setPlayer2}>
                 <option value="">---</option>
-                {players.map(player => (
+                {players.map((player) => (
                   <option key={player.name} value={player._id}>
                     {player.name}
                   </option>
@@ -101,7 +101,7 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
             <Input
               required
               value={score.player2}
-              onChange={value => setScore({ ...score, player2: value === '' ? '' : +value })}
+              onChange={(value) => setScore({ ...score, player2: value === '' ? '' : +value })}
               placeholder="Sets"
               type="number"
             />
@@ -154,7 +154,7 @@ GameModal.propTypes = {
     player2: string,
     score: shape({
       player1: number,
-      player2: number
-    })
-  })
+      player2: number,
+    }),
+  }),
 }

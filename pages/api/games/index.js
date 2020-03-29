@@ -14,10 +14,7 @@ export default async function handle(req, res) {
 
   switch (req.method) {
     case 'GET': {
-      const games = await gamesCollection
-        .find({})
-        .sort({ createdAt: -1 })
-        .toArray()
+      const games = await gamesCollection.find({}).sort({ createdAt: -1 }).toArray()
 
       res.send(games)
       break
@@ -30,13 +27,13 @@ export default async function handle(req, res) {
         player2: body.player2,
         score: {
           player1: body.score.player1,
-          player2: body.score.player2
+          player2: body.score.player2,
         },
-        createdAt: Date.now()
+        createdAt: Date.now(),
       })
 
-      const player1 = players.find(player => player._id.toString() === body.player1)
-      const player2 = players.find(player => player._id.toString() === body.player2)
+      const player1 = players.find((player) => player._id.toString() === body.player1)
+      const player2 = players.find((player) => player._id.toString() === body.player2)
       const winner =
         body.score.player1 > body.score.player2 ? player1 : body.score.player2 > body.score.player1 ? player2 : null
       const loser =
@@ -51,7 +48,7 @@ export default async function handle(req, res) {
               ? `The ${formatAnimal(winner.animal)} just beat the ${formatAnimal(loser.animal)}.`
               : `${player1.name} and ${player2.name} just played to a draw. Lame.`,
             url: 'https://pingpong.airforce',
-            text: `${player1.name} ${body.score.player1} : ${body.score.player2} ${player2.name}`
+            text: `${player1.name} ${body.score.player1} : ${body.score.player2} ${player2.name}`,
           },
           { headers: { Authorization: process.env.CLEVERPUSH_SECRET } }
         )
