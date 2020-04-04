@@ -28,6 +28,10 @@ export default function Players() {
   })
   useInterval(incrementIndex, isAutoplaying ? 50 : null)
 
+  React.useEffect(() => {
+    setGameIndex(games.length)
+  }, [games.length])
+
   const ranking = addEloRatings(games.slice(0, gameIndex), players).sort((p1, p2) => p2.eloRating - p1.eloRating)
 
   return (
