@@ -1,14 +1,16 @@
 import Head from 'next/head'
+import { arrayOf, number, shape, string } from 'prop-types'
 
 import Games from '../components/games'
 import Players from '../components/players'
-import useAllData from '../hooks/useAllData'
+import { connectToDatabase } from '../db'
+import useData from '../hooks/useData'
 
 export const breakpoint = '900px'
 export const DataContext = React.createContext({})
 
-export default function App() {
-  const { games, players, isLoading, refetch } = useAllData()
+export default function App({ games: initialGames, players: initialPlayers }) {
+  const { games, players, refetch } = useData({ games: initialGames, players: initialPlayers })
 
   return (
     <>
@@ -25,16 +27,10 @@ export default function App() {
           </a>{' '}
           headquarters
         </h4>
-        {isLoading ? (
-          <div className="loading">
-            <img src="/loading.gif" />
-          </div>
-        ) : (
-          <div className="cards">
-            <Games />
-            <Players />
-          </div>
-        )}
+        <div className="cards">
+          <Games />
+          <Players />
+        </div>
         <h4>
           <a href="https://twitter.com/jonathan_wbn" target="_blank" rel="noopener noreferrer">
             @jonathan_wbn
@@ -46,13 +42,6 @@ export default function App() {
         </h4>
       </DataContext.Provider>
       <style jsx>{`
-        .loading {
-          flex-grow: 1;
-          display: flex;
-          align-items: center;
-          justifty-content: center;
-          align-self: center;
-        }
         h4 {
           text-align: center;
           font-weight: 300;
@@ -91,4 +80,37 @@ export default function App() {
       `}</style>
     </>
   )
+}
+
+App.propTypes = {
+  games: arrayOf(
+    shape({
+      _id: string.isRequired,
+      player1: string.isRequired,
+      player2: string.isRequired,
+      score: shape({ player1: number.isRequired, player2: number.isRequired }).isRequired,
+      createdAt: number.isRequired,
+    })
+  ),
+  players: arrayOf(shape({ _id: string.isRequired, name: string.isRequired, animal: string.isRequired })),
+}
+
+function serializeDocumentArray(documents) {
+  return documents.map((doc) => ({ ...doc, _id: doc._id.toString() }))
+}
+
+export async function getStaticProps() {
+  const db = await connectToDatabase()
+  const gamesCollection = await db.collection('games')
+  const playersCollection = await db.collection('players')
+
+  const games = await gamesCollection.find({}).sort({ createdAt: -1 }).toArray()
+  const players = await playersCollection.find({}).toArray()
+
+  return {
+    props: {
+      games: serializeDocumentArray(games),
+      players: serializeDocumentArray(players),
+    },
+  }
 }
