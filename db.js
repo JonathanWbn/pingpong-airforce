@@ -5,7 +5,6 @@ import { MongoClient } from 'mongodb'
 let cachedDb = null
 
 export async function connectToDatabase() {
-  console.log('process.env.MONGO_DB_URL', process.env.MONGO_DB_URL)
   const mongoURL = `${process.env.MONGO_DB_URL}/pingpong?retryWrites=true&w=majority`
 
   if (cachedDb) return cachedDb
