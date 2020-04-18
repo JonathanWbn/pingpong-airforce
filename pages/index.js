@@ -99,7 +99,7 @@ function serializeDocumentArray(documents) {
   return documents.map((doc) => ({ ...doc, _id: doc._id.toString() }))
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const db = await connectToDatabase()
   const gamesCollection = await db.collection('games')
   const playersCollection = await db.collection('players')
