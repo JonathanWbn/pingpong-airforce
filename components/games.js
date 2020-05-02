@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { format } from 'date-fns'
 
 import { DataContext } from '../pages/index.js'
 import Card from './card.js'
@@ -45,7 +45,7 @@ export default function Games() {
                   <div>
                     {game.score.player1} : {game.score.player2}
                   </div>
-                  <div className="date">{moment(game.createdAt).format('MMM Do Y')}</div>
+                  <div className="date">{format(game.createdAt, 'MMM do Y')}</div>
                 </div>
                 <div className="player player-2">
                   {game.player2Obj.name}
