@@ -1,10 +1,10 @@
 import classnames from 'classnames'
 import { Flipped, Flipper } from 'react-flip-toolkit'
 
-import { addEloRatings } from '../elo.ts'
+import { addEloRatings } from '../elo'
 import useInterval from '../hooks/useInterval'
-import { DataContext, breakpoint } from '../pages/index.js'
-import Card from './card.js'
+import { DataContext, breakpoint } from '../pages'
+import Card from './card'
 import List from './list'
 import PlayerModal from './player-modal'
 

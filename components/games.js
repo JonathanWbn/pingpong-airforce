@@ -1,9 +1,9 @@
 import { format } from 'date-fns'
 
-import { DataContext } from '../pages/index.js'
-import Card from './card.js'
+import { DataContext } from '../pages'
+import Card from './card'
 import GameModal from './game-modal'
-import List from './list.js'
+import List from './list'
 
 export default function Games() {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)

@@ -1,13 +1,15 @@
 import Head from 'next/head'
 import { arrayOf, number, shape, string } from 'prop-types'
+import React from 'react'
 
 import Games from '../components/games'
 import Players from '../components/players'
 import { connectToDatabase } from '../db'
 import useData from '../hooks/useData'
+import { ContextData } from '../interfaces'
 
 export const breakpoint = '900px'
-export const DataContext = React.createContext({})
+export const DataContext = React.createContext<ContextData>({ players: [], games: [], refetch: () => {} })
 
 export default function App({ games: initialGames, players: initialPlayers }) {
   const { games, players, refetch } = useData({ games: initialGames, players: initialPlayers })
