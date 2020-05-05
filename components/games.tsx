@@ -1,11 +1,12 @@
 import { format } from 'date-fns'
+import React from 'react'
 
 import { DataContext } from '../pages'
 import Card from './card'
 import GameModal from './game-modal'
 import List from './list'
 
-export default function Games() {
+const Games: React.FunctionComponent = () => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [game, setGame] = React.useState(null)
   const { games, players } = React.useContext(DataContext)
@@ -85,3 +86,5 @@ export default function Games() {
     </>
   )
 }
+
+export default Games

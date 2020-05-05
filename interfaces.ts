@@ -3,6 +3,7 @@ export type Game = {
   player1: string
   player2: string
   score: Score
+  createdAt: number
 }
 
 export type Score = {
@@ -13,6 +14,7 @@ export type Score = {
 export type Player = {
   _id: string
   name: string
+  animal: string
 }
 
 export type ContextData = {
