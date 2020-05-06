@@ -1,4 +1,5 @@
 import classnames from 'classnames'
+import React from 'react'
 import { Flipped, Flipper } from 'react-flip-toolkit'
 
 import { addEloRatings } from '../elo'
@@ -12,7 +13,7 @@ function haveSameRank(p1, p2) {
   return p1 && p2 && p1.eloRating === p2.eloRating
 }
 
-export default function Players() {
+const Players: React.FunctionComponent = () => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
   const { games, players } = React.useContext(DataContext)
@@ -25,7 +26,7 @@ export default function Players() {
         return v
       } else return v + 1
     })
-  })
+  }, [])
   useInterval(incrementIndex, isAutoplaying ? 50 : null)
 
   React.useEffect(() => {
@@ -234,3 +235,5 @@ export default function Players() {
     </>
   )
 }
+
+export default Players

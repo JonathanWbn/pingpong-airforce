@@ -1,6 +1,8 @@
-import { func } from 'prop-types'
+type Props = {
+  onChange: (string) => void
+}
 
-export default function Select({ onChange, ...props }) {
+const Select: React.FunctionComponent<Props> = ({ onChange, ...props }) => {
   return (
     <>
       <select onChange={(e) => onChange(e.target.value)} {...props} />
@@ -28,6 +30,4 @@ export default function Select({ onChange, ...props }) {
   )
 }
 
-Select.propTypes = {
-  onChange: func.isRequired,
-}
+export default Select
