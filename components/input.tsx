@@ -1,5 +1,5 @@
 type Props = {
-  onChange: (string) => void
+  onChange: (value: string) => void
 }
 
 type InputProps = Omit<React.HTMLProps<HTMLInputElement>, 'onChange'>

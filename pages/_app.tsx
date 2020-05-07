@@ -5,7 +5,6 @@ type Props = {
   pageProps: object
 }
 
-// eslint-disable-next-line react/prop-types
 const MyApp: React.FunctionComponent<Props> = ({ Component, pageProps }) => {
   return (
     <div className="app">

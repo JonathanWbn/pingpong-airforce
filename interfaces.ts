@@ -1,3 +1,5 @@
+import { IncomingMessage, ServerResponse } from 'http'
+
 export type Game = {
   _id?: string
   player1: string
@@ -21,4 +23,18 @@ export type ContextData = {
   games: Game[]
   players: Player[]
   refetch: () => void
+}
+
+export type APIReq = IncomingMessage & {
+  query: {
+    [key: string]: any
+  }
+  body: {
+    [key: string]: any
+  } | null
+}
+
+export type APIRes = ServerResponse & {
+  status: (status: number) => APIRes
+  send: (response: any) => APIRes
 }

@@ -1,5 +1,5 @@
 type Props = {
-  onChange: (string) => void
+  onChange: (value: string) => void
 }
 
 const Select: React.FunctionComponent<Props> = ({ onChange, ...props }) => {

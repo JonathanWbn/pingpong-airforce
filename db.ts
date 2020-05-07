@@ -1,8 +1,8 @@
 import url from 'url'
 
-import { MongoClient } from 'mongodb'
+import { Db, MongoClient } from 'mongodb'
 
-let cachedDb = null
+let cachedDb: Db | null = null
 
 export async function connectToDatabase() {
   const mongoURL = `${process.env.MONGO_DB_URL}/pingpong?retryWrites=true&w=majority`
