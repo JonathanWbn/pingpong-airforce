@@ -1,7 +1,8 @@
 import axios from 'axios'
 import classnames from 'classnames'
-import { bool, func, shape, string } from 'prop-types'
+import React from 'react'
 
+import { Player } from '../interfaces'
 import { DataContext, breakpoint } from '../pages'
 import Input from './input'
 import Modal from './modal'
@@ -33,7 +34,13 @@ const animals = [
   { name: 'Penguin', id: '047-penguin' },
 ]
 
-export default function PlayerModal({ isOpen, onClose, initialValues }) {
+type Props = {
+  isOpen: boolean
+  onClose: () => void
+  initialValues: Player
+}
+
+const PlayerModal: React.FunctionComponent<Props> = ({ isOpen, onClose, initialValues }) => {
   const [name, setName] = React.useState('')
   const [animal, setAnimal] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
@@ -147,11 +154,4 @@ export default function PlayerModal({ isOpen, onClose, initialValues }) {
   )
 }
 
-PlayerModal.propTypes = {
-  isOpen: bool,
-  onClose: func.isRequired,
-  initialValues: shape({
-    name: string,
-    animal: string,
-  }),
-}
+export default PlayerModal

@@ -1,11 +1,12 @@
 import { ObjectID } from 'mongodb'
 
 import { connectToDatabase } from '../../../db'
+import { APIReq, APIRes } from '../../../interfaces'
 
-export default async function handle(req, res) {
+export default async function handle(req: APIReq, res: APIRes) {
   const { query, body } = req
   const db = await connectToDatabase()
-  const gamesCollection = await db.collection('games')
+  const gamesCollection = db.collection('games')
 
   switch (req.method) {
     case 'POST': {

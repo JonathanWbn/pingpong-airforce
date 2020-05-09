@@ -1,15 +1,26 @@
+import { ObjectID } from 'mongodb'
 import Head from 'next/head'
-import { arrayOf, number, shape, string } from 'prop-types'
+import React from 'react'
 
 import Games from '../components/games'
 import Players from '../components/players'
 import { connectToDatabase } from '../db'
 import useData from '../hooks/useData'
+import { ContextData, Game, Player } from '../interfaces'
 
 export const breakpoint = '900px'
-export const DataContext = React.createContext({})
+export const DataContext = React.createContext<ContextData>({
+  players: [],
+  games: [],
+  refetch: () => Promise.resolve(undefined),
+})
 
-export default function App({ games: initialGames, players: initialPlayers }) {
+type Props = {
+  games: Game[]
+  players: Player[]
+}
+
+const App: React.FunctionComponent<Props> = ({ games: initialGames, players: initialPlayers }) => {
   const { games, players, refetch } = useData({ games: initialGames, players: initialPlayers })
 
   return (
@@ -82,30 +93,20 @@ export default function App({ games: initialGames, players: initialPlayers }) {
   )
 }
 
-App.propTypes = {
-  games: arrayOf(
-    shape({
-      _id: string.isRequired,
-      player1: string.isRequired,
-      player2: string.isRequired,
-      score: shape({ player1: number.isRequired, player2: number.isRequired }).isRequired,
-      createdAt: number.isRequired,
-    })
-  ),
-  players: arrayOf(shape({ _id: string.isRequired, name: string.isRequired, animal: string.isRequired })),
-}
-
 function serializeDocumentArray(documents) {
   return documents.map((doc) => ({ ...doc, _id: doc._id.toString() }))
 }
 
-export async function getServerSideProps() {
-  const db = await connectToDatabase()
-  const gamesCollection = await db.collection('games')
-  const playersCollection = await db.collection('players')
+type DBGame = Game & { _id: ObjectID }
+type DBPlayer = Player & { _id: ObjectID }
 
-  const games = await gamesCollection.find({}).sort({ createdAt: -1 }).toArray()
-  const players = await playersCollection.find({}).toArray()
+export async function getServerSideProps(): Promise<{ props: Props }> {
+  const db = await connectToDatabase()
+  const gamesCollection = db.collection('games')
+  const playersCollection = db.collection('players')
+
+  const games: DBGame[] = await gamesCollection.find({}).sort({ createdAt: -1 }).toArray()
+  const players: DBPlayer[] = await playersCollection.find({}).toArray()
 
   return {
     props: {
@@ -114,3 +115,5 @@ export async function getServerSideProps() {
     },
   }
 }
+
+export default App

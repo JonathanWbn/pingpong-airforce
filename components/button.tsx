@@ -1,8 +1,10 @@
-import { func, node } from 'prop-types'
-
 import { breakpoint } from '../pages'
 
-export default function Button({ onClick, children }) {
+type Props = {
+  onClick: React.FormEventHandler
+}
+
+const Button: React.FunctionComponent<Props> = ({ onClick, children }) => {
   return (
     <>
       <button onClick={onClick}>{children}</button>
@@ -34,7 +36,4 @@ export default function Button({ onClick, children }) {
   )
 }
 
-Button.propTypes = {
-  onClick: func,
-  children: node,
-}
+export default Button

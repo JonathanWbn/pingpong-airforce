@@ -1,16 +1,17 @@
 import { format } from 'date-fns'
+import React from 'react'
 
-import { DataContext } from '../pages/index.js'
-import Card from './card.js'
+import { DataContext } from '../pages'
+import Card from './card'
 import GameModal from './game-modal'
-import List from './list.js'
+import List from './list'
 
-export default function Games() {
+const Games: React.FunctionComponent = () => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [game, setGame] = React.useState(null)
   const { games, players } = React.useContext(DataContext)
 
-  const getPlayer = (id) => players.find((player) => player._id === id)
+  const getPlayer = (id: string) => players.find((player) => player._id === id)
 
   return (
     <>
@@ -85,3 +86,5 @@ export default function Games() {
     </>
   )
 }
+
+export default Games

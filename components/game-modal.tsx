@@ -1,14 +1,22 @@
 import axios from 'axios'
 import classnames from 'classnames'
-import { bool, func, number, shape, string } from 'prop-types'
+import React from 'react'
 
+import { Game } from '../interfaces'
 import { DataContext, breakpoint } from '../pages'
 import Input from './input'
 import Modal from './modal'
 import Select from './select'
 
-export default function GameModal({ isOpen, onClose, initialValues = {} }) {
-  const [score, setScore] = React.useState({ player1: '', player2: '' })
+type Props = {
+  isOpen: boolean
+  onClose: () => void
+  initialValues: Game | null
+}
+
+const GameModal: React.FunctionComponent<Props> = ({ isOpen, onClose, initialValues }) => {
+  const [scorePlayer1, setScorePlayer1] = React.useState('')
+  const [scorePlayer2, setScorePlayer2] = React.useState('')
   const [player1, setPlayer1] = React.useState('')
   const [player2, setPlayer2] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
@@ -17,15 +25,30 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
 
   React.useEffect(() => {
     if (isOpen) {
-      setScore((initialValues && initialValues.score) || { player1: '', player2: '' })
-      setPlayer1((initialValues && initialValues.player1) || '')
-      setPlayer2((initialValues && initialValues.player2) || '')
+      if (initialValues) {
+        setScorePlayer1(initialValues.score.player1.toString())
+        setScorePlayer2(initialValues.score.player2.toString())
+        setPlayer1(initialValues.player1)
+        setPlayer2(initialValues.player2)
+      } else {
+        setScorePlayer1('')
+        setScorePlayer2('')
+        setPlayer1('')
+        setPlayer2('')
+      }
     }
   }, [isOpen])
 
-  const handleSubmit = async (e) => {
+  const values: Game = {
+    player1,
+    player2,
+    score: {
+      player1: parseInt(scorePlayer1) || 0,
+      player2: parseInt(scorePlayer2) || 0,
+    },
+  }
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
-    const values = { player1, player2, score }
 
     if (!player1 || !player2) {
       alert('Please select two players.')
@@ -66,7 +89,7 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
       >
         <div className="container">
           <div className="player-column">
-            <label className={classnames(score.player1 > score.player2 && 'winning')}>
+            <label className={classnames(values.score.player1 > values.score.player2 && 'winning')}>
               <span>Player 1</span>
               <Select value={player1} onChange={setPlayer1}>
                 <option value="">---</option>
@@ -77,17 +100,11 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
                 ))}
               </Select>
             </label>
-            <Input
-              required
-              value={score.player1}
-              onChange={(value) => setScore({ ...score, player1: value === '' ? '' : +value })}
-              placeholder="Sets"
-              type="number"
-            />
+            <Input required value={scorePlayer1} onChange={setScorePlayer1} placeholder="Sets" type="number" />
           </div>
           <h5>vs.</h5>
           <div className="player-column">
-            <label className={classnames(score.player2 > score.player1 && 'winning')}>
+            <label className={classnames(values.score.player2 > values.score.player1 && 'winning')}>
               <span>Player 2</span>
               <Select value={player2} onChange={setPlayer2}>
                 <option value="">---</option>
@@ -98,13 +115,7 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
                 ))}
               </Select>
             </label>
-            <Input
-              required
-              value={score.player2}
-              onChange={(value) => setScore({ ...score, player2: value === '' ? '' : +value })}
-              placeholder="Sets"
-              type="number"
-            />
+            <Input required value={scorePlayer2} onChange={setScorePlayer2} placeholder="Sets" type="number" />
           </div>
         </div>
       </Modal>
@@ -146,15 +157,4 @@ export default function GameModal({ isOpen, onClose, initialValues = {} }) {
   )
 }
 
-GameModal.propTypes = {
-  isOpen: bool,
-  onClose: func.isRequired,
-  initialValues: shape({
-    player1: string,
-    player2: string,
-    score: shape({
-      player1: number,
-      player2: number,
-    }),
-  }),
-}
+export default GameModal

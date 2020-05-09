@@ -1,16 +1,17 @@
 import axios from 'axios'
 
 import { connectToDatabase } from '../../../db'
+import { APIReq, APIRes } from '../../../interfaces'
 
-function formatAnimal(str) {
+function formatAnimal(str: string) {
   return str.split('-')[1]
 }
 
-export default async function handle(req, res) {
+export default async function handle(req: APIReq, res: APIRes) {
   const { body } = req
   const db = await connectToDatabase()
-  const gamesCollection = await db.collection('games')
-  const playersCollection = await db.collection('players')
+  const gamesCollection = db.collection('games')
+  const playersCollection = db.collection('players')
 
   switch (req.method) {
     case 'GET': {

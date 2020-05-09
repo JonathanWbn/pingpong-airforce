@@ -1,8 +1,16 @@
 import classnames from 'classnames'
-import { bool, func, node } from 'prop-types'
+import React from 'react'
 
-export default function Modal({ isOpen, onClose, onSubmit, onDelete, children, isLoading }) {
-  const modalRef = React.useRef()
+type Props = {
+  isOpen: boolean
+  onClose: () => void
+  onDelete?: () => void
+  onSubmit: React.FormEventHandler
+  isLoading: boolean
+}
+
+const Modal: React.FunctionComponent<Props> = ({ isOpen, onClose, onSubmit, onDelete, children, isLoading }) => {
+  const modalRef = React.useRef<HTMLFormElement>(null)
   const [fullyClosed, setFullyClosed] = React.useState(true)
   const [isDeleting, setIsDeleting] = React.useState(false)
 
@@ -139,11 +147,4 @@ export default function Modal({ isOpen, onClose, onSubmit, onDelete, children, i
   )
 }
 
-Modal.propTypes = {
-  isOpen: bool,
-  onClose: func.isRequired,
-  onDelete: func,
-  onSubmit: func,
-  children: node,
-  isLoading: bool,
-}
+export default Modal

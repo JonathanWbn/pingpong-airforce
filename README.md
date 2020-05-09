@@ -13,12 +13,14 @@ yarn install
 ## Running
 
 You'll need to add an `.env` file with environment variables:
+
 - `MONGO_DB_URL`
 - `CLEVERPUSH_SECRET` (optional)
 
 You can either use your own or contact me (joni.wieben@icloud.com) and I might give them to you.
 
 #### Commands
+
 - `yarn dev`: Starts development server with hot reloading.
 - `yarn build`: Creates a production build.
 - `yarn start`: Starts production server using the production build.
@@ -26,7 +28,9 @@ You can either use your own or contact me (joni.wieben@icloud.com) and I might g
 - `yarn fixlint`: Automatically fixes linting and formatting issues if possible.
 
 ## Contributing
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
+
 [ISC](https://choosealicense.com/licenses/isc/)
