@@ -11,7 +11,7 @@ const Games: React.FunctionComponent = () => {
   const [game, setGame] = React.useState(null)
   const { games, players } = React.useContext(DataContext)
 
-  const getPlayer = (id) => players.find((player) => player._id === id)
+  const getPlayer = (id: string) => players.find((player) => player._id === id)
 
   return (
     <>

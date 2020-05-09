@@ -1,8 +1,8 @@
-type Props = {
-  onChange: (value: string) => void
-}
+type Props = { onChange: (value: string) => void }
 
-const Select: React.FunctionComponent<Props> = ({ onChange, ...props }) => {
+type SelectProps = Omit<React.HTMLProps<HTMLSelectElement>, 'onChange'>
+
+const Select: React.FunctionComponent<Props & SelectProps> = ({ onChange, ...props }) => {
   return (
     <>
       <select onChange={(e) => onChange(e.target.value)} {...props} />

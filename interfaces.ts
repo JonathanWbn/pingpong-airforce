@@ -5,7 +5,7 @@ export type Game = {
   player1: string
   player2: string
   score: Score
-  createdAt: number
+  createdAt?: number
 }
 
 export type Score = {
@@ -22,7 +22,7 @@ export type Player = {
 export type ContextData = {
   games: Game[]
   players: Player[]
-  refetch: () => void
+  refetch: () => Promise<void>
 }
 
 export type APIReq = IncomingMessage & {

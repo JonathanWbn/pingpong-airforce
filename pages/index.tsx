@@ -9,7 +9,11 @@ import useData from '../hooks/useData'
 import { ContextData } from '../interfaces'
 
 export const breakpoint = '900px'
-export const DataContext = React.createContext<ContextData>({ players: [], games: [], refetch: () => {} })
+export const DataContext = React.createContext<ContextData>({
+  players: [],
+  games: [],
+  refetch: () => Promise.resolve(undefined),
+})
 
 export default function App({ games: initialGames, players: initialPlayers }) {
   const { games, players, refetch } = useData({ games: initialGames, players: initialPlayers })

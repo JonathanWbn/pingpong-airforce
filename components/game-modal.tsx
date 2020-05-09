@@ -47,7 +47,7 @@ const GameModal: React.FunctionComponent<Props> = ({ isOpen, onClose, initialVal
       player2: parseInt(scorePlayer2) || 0,
     },
   }
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
 
     if (!player1 || !player2) {
