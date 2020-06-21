@@ -43,10 +43,6 @@ const App: React.FunctionComponent<Props> = ({ games: initialGames, players: ini
           <Players />
         </div>
         <h4>
-          <a href="https://twitter.com/jonathan_wbn" target="_blank" rel="noopener noreferrer">
-            @jonathan_wbn
-          </a>{' '}
-          |{' '}
           <a href="https://github.com/JonathanWbn/pingpong-airforce" target="_blank" rel="noopener noreferrer">
             source
           </a>
