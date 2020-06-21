@@ -18,6 +18,8 @@ export default async function handle(req: APIReq, res: APIRes) {
       const player = await playersCollection.insertOne({
         name: body.name,
         animal: body.animal,
+        createdAt: Date.now(),
+        retired: false,
       })
 
       res.status(201).send(player)

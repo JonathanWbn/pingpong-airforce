@@ -12,7 +12,7 @@ export default async function handle(req: APIReq, res: APIRes) {
     case 'POST': {
       const player = await playersCollection.update(
         { _id: new ObjectID(query.id) },
-        { $set: { name: body.name, animal: body.animal } }
+        { $set: { name: body.name, animal: body.animal, retired: Boolean(body.retired) } }
       )
 
       res.status(201).send(player)

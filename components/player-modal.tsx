@@ -44,6 +44,7 @@ const PlayerModal: React.FunctionComponent<Props> = ({ isOpen, onClose, initialV
   const [name, setName] = React.useState('')
   const [animal, setAnimal] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
+  const [retired, setRetired] = React.useState(false)
 
   const { refetch } = React.useContext(DataContext)
 
@@ -51,12 +52,13 @@ const PlayerModal: React.FunctionComponent<Props> = ({ isOpen, onClose, initialV
     if (isOpen) {
       setName((initialValues && initialValues.name) || '')
       setAnimal((initialValues && initialValues.animal) || '')
+      setRetired((initialValues && initialValues.retired) || false)
     }
   }, [isOpen])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const values = { name, animal }
+    const values = { name, animal, retired }
 
     setIsLoading(true)
     if (!animal) alert('Please select an animal.')
@@ -85,15 +87,26 @@ const PlayerModal: React.FunctionComponent<Props> = ({ isOpen, onClose, initialV
             />
           ))}
         </div>
-        <div className="icons-credit">
-          Icons made by{' '}
-          <a href="https://www.flaticon.com/authors/freepik" title="Freepik" target="_blank" rel="noopener noreferrer">
-            Freepik
-          </a>{' '}
-          from{' '}
-          <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noopener noreferrer">
-            flaticon.com
-          </a>
+        <div className="bottom-row">
+          <div className="icons-credit">
+            Icons made by{' '}
+            <a
+              href="https://www.flaticon.com/authors/freepik"
+              title="Freepik"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Freepik
+            </a>{' '}
+            from{' '}
+            <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noopener noreferrer">
+              flaticon.com
+            </a>
+          </div>
+          <label className="retired">
+            <input type="checkbox" checked={retired} onChange={(e) => setRetired(e.target.checked)}></input>
+            Retired
+          </label>
         </div>
       </Modal>
       <style jsx>{`
@@ -125,16 +138,27 @@ const PlayerModal: React.FunctionComponent<Props> = ({ isOpen, onClose, initialV
           width: 40px;
           border: 2px solid var(--button-color);
         }
-        .icons-credit {
-          text-align: center;
-          font-weight: 400;
-          color: var(--dark-grey);
+        .bottom-row {
           padding: 0 20px;
           margin-top: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .icons-credit {
+          font-weight: 400;
+          color: var(--dark-grey);
         }
         .icons-credit a {
           text-decoration: none;
           color: var(--black);
+        }
+        .bottom-row label {
+          display: flex;
+          justify-content: flex-end;
+        }
+        .bottom-row input {
+          margin-right: 5px;
         }
 
         @media (min-width: ${breakpoint}) {

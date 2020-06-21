@@ -17,6 +17,10 @@ export type Player = {
   _id: string
   name: string
   animal: string
+  createdAt?: number
+  retired?: boolean
+  eloRating?: number
+  lastGameTrend?: number
 }
 
 export type ContextData = {

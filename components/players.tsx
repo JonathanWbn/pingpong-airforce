@@ -49,14 +49,15 @@ const Players: React.FunctionComponent = () => {
         heading="Players"
         footer={
           <div className="footer">
-            <div>
+            <div style={{ textAlign: 'left' }}>
               Using the{' '}
               <a href="https://en.wikipedia.org/wiki/Elo_rating_system" target="_blank" rel="noopener noreferrer">
                 Elo rating system
               </a>
-              .
+              .<br />
+              Penalty of 1% of score for each month of inactivity.
             </div>
-            <div>{players.length} players</div>
+            <div style={{ whiteSpace: 'nowrap' }}>{players.length} players</div>
           </div>
         }
         actionButton={{
@@ -109,6 +110,7 @@ const Players: React.FunctionComponent = () => {
                     <strong>{haveSameRank(player, arr[i - 1]) ? '-' : `${i + 1}.`}</strong>
                     <img src={`/animals/${player.animal}.png`} />
                     {player.name}
+                    {player.retired && <span className="retired">(retired)</span>}
                   </div>
                   <div className="scores">
                     <div className="score" style={{ fontWeight: 500 }}>
@@ -183,6 +185,11 @@ const Players: React.FunctionComponent = () => {
         .player > strong {
           text-align: center;
           width: 20px;
+        }
+        .retired {
+          margin-left: 5px;
+          color: #7d7d7dbd;
+          font-weight: 300;
         }
         img {
           margin: 0 10px;
