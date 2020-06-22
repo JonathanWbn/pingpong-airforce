@@ -17,7 +17,7 @@ You'll need to add an `.env` file with environment variables:
 - `MONGO_DB_URL`
 - `CLEVERPUSH_SECRET` (optional)
 
-You can either use your own or contact me (joni.wieben@icloud.com) and I might give them to you.
+You can either use your own or contact me (jwieben@hey.com) and I might give them to you.
 
 #### Commands
 
