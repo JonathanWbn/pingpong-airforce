@@ -5,7 +5,7 @@ export default function Phishing() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const response = await fetch(`http://cors-anywhere.herokuapp.com/${url}`, {
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/${url}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
