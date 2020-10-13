@@ -35,11 +35,11 @@ export default function Phishing() {
       <form onSubmit={handleSubmit}>
         <label>
           Username:
-          <input name="username" id="username" value="teamcrimson"></input>
+          <input name="username" id="username"></input>
         </label>
         <label>
           Password:
-          <input name="password" id="password" value="ePages01"></input>
+          <input name="password" id="password"></input>
         </label>
         <button>Submit</button>
       </form>
