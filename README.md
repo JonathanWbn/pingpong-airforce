@@ -1,3 +1,5 @@
+_This project has been archived in favor of a simpler Google Spreadsheet. I had left the company and did not longer want to maintain the repo._
+
 # Ping Pong Airforce
 
 [pingpong.airforce](https://pingpong.airforce/) is a web app to track the ping pong games that are going down at @ePages-de headquarters in Hamburg, Germany.
